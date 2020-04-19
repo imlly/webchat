@@ -1,8 +1,8 @@
 {
-  "name": "webchat",
+  "name": "theproject",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "ZhiosLong <58965133+ZhiosLong@users.noreply.github.com>",
+  "author": "504574335 <44646576+504574335@users.noreply.github.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "element-ui": "^2.13.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
