@@ -26,7 +26,7 @@
                             <div class="search_icon"></div>
                         </div>
                     </div>
-                    <ul class="online_list">
+                    <ul class="online_list" v-show="icon_show==0">
                         <li style="margin-left: -40px;" @click="changeMessage(index)" v-for="(message,index) in messageList" v-bind:key="index">
                             <div class="info">
                                 <div class="user_head">
@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{message.friendName}}</div>
-                                    <div class="user_msg"></div>
+                                    <div class="user_msg">{{message.recentMessage}}</div>
                                 </div>
                             </div>
                             <div class="other">
@@ -43,11 +43,25 @@
                             </div>
                         </li>
                     </ul>
+                    <ul class="online_list" v-show="icon_show==1">
+                        <li style="margin-left: -40px;" @click="changeFriend(index)" v-for="(friend,index) in friendList" v-bind:key="index">
+                            <div class="info">
+                                <div class="user_head">
+                                    <img src="../../static/img/headimg02.jpg" style="width:50px;margin-top:-5px;"/>
+                                    <span class="fubiao"></span>
+                                </div>
+                                <div class="user_info">
+                                    <div class="user_name">{{friend.friendNickname}}</div>
+                                    <div class="user_msg"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
 
-            <div class="panel_right">
+            <div class="panel_right" v-show="icon_show==0">
                 <div class="chatTitle_bar">
                     <div class="title">{{chat_title}}</div>
                 </div>
@@ -72,6 +86,16 @@
                     <div class="send_btn">发送</div>
                 </div>
             </div>
+            <div class="panel_right" v-show="icon_show==1">
+                <div style="margin-top:200px;">
+                    <div>{{friend_message.userName}}</div>
+
+                    <div>
+                        <p><span>备注：</span>{{friend_message.note}}</p>
+                        <el-button type="success">发消息</el-button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -84,7 +108,9 @@ export default {
     name: 'chat',
     data () {
         return {
+        userName:'',
         messageList: [],
+        friendList:[],
         icons:[
             'chat_icon.png',
             'user_icon.png',
@@ -97,18 +123,21 @@ export default {
         ],
         icon_show: 0,
         message_show:0,
-        chat_title:''
+        chat_title:'',
+        friend_show:0,
+        friend_message:'',
+        //friendNickname_show:''
         }
     },
     mounted: function(){
-        console.log("start");
+        this.userName=this.$route.params.userName
+        console.log('欢迎'+this.userName);
         var self = this;
-        // 调用 LarkCloud 函数
-
+        // 请求最近消息列表
         axios.post(
             'https://afwt8c.toutiao15.com/get_message_list',
             { 
-                userName: "Mao"
+                userName: this.userName
             }
         ).then((res)=>{
             // 处理正常结果
@@ -117,7 +146,7 @@ export default {
             //console.log(data.result.length);
             self.messageList = data.result;
             if(data.result.length!=0) self.chat_title=self.messageList[0].friendName;
-            console.log(self.messageList[0].createdAt);
+            //console.log(self.messageList[0].createdAt);
             /*
             for(var index = 0;index < data.result.length;index++){
                 self.messageList
@@ -127,7 +156,24 @@ export default {
             console.log(JSON.stringify(error));
             console.log(error.result);
         }).finally(function() {
-          console.log('完');
+          console.log('请求最近消息列表成功');
+        });
+        // 请求好友列表
+        axios.post(
+            'https://afwt8c.toutiao15.com/get_friend_list',
+            { 
+                userName: this.userName
+            }
+        ).then((res)=>{
+            // 处理正常结果
+            const data = res.data;
+            self.friendList = data.result;
+        }).catch(function(error) {
+            // 处理异常结果
+            console.log(JSON.stringify(error));
+            console.log(error.result);
+        }).finally(function() {
+          console.log('请求好友列表成功');
         });
         
     },
@@ -137,8 +183,35 @@ export default {
           },
         changeMessage(index){
             this.message_show=index;
-            this.chat_title=this.messageList[index].friendName;
-            
+            this.chat_title=this.messageList[index].friendName;  
+        },
+        changeFriend(index){
+            var self = this;
+            this.friend_show=index;
+            this.friend_message={
+                userName: this.friendList[this.friend_show].friendName,
+                note: this.friendList[this.friend_show].friendNickname
+            }
+            //this.friendNickname_show=this.friendList[this.friend_show].friendNickname;
+            /*
+            // 请求好友信息
+            axios.post(
+                'https://afwt8c.toutiao15.com/get_friend',
+                { 
+                    userName: this.friendList[index].friendName
+                }
+            ).then((res)=>{
+                // 处理正常结果
+                const data = res.data;
+                self.friend_message = data.result;
+                //console.log(data.result);
+            }).catch(function(error) {
+                // 处理异常结果
+                console.log(JSON.stringify(error));
+                console.log(error.result);
+            }).finally(function() {
+            console.log('请求好友信息成功');
+            });*/
         }
     }
 }

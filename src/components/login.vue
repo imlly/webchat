@@ -20,7 +20,7 @@
           </div>
           <div class="choose_head">
             <div class="headimg">
-              <img :src="'/dist/static/headimg/'+headimgArr[current_head]"/>
+              <img :src="'../../static/img/'+headimgArr[current_head]" style="width:100px;"/>
             </div>
             <div class="to_left to" @click="change_head(-1)">〈</div>
             <div class="to_right to" @click="change_head(1)">〉</div>
@@ -102,9 +102,10 @@ export default {
           console.log(JSON.stringify(error));
           console.log(error.result);
       }).finally(function() {
-          console.log('调用完成');
+          console.log('调用登录完成');
       });
-      this.$router.push('/chat');
+      var userinfo='用户数据';
+      this.$router.push({ name: 'chat', params: { userName: this.userName }});
     },
     register(){
       // 调用 LarkCloud 函数
@@ -123,7 +124,7 @@ export default {
           console.log(JSON.stringify(error));
           console.log(error.result);
       }).finally(function() {
-          console.log('调用完成');
+          console.log('调用注册完成');
       });
     }
   }
