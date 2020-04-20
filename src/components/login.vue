@@ -20,7 +20,7 @@
           </div>
           <div class="choose_head">
             <div class="headimg">
-              <img :src="'/dist/static/headimg/'+headimgArr[current_head]"/>
+              <img :src="'../../static/headimg/'+headimgArr[current_head]" height="100px" width="100px"/>
             </div>
             <div class="to_left to" @click="change_head(-1)">〈</div>
             <div class="to_right to" @click="change_head(1)">〉</div>
