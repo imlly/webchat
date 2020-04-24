@@ -1,126 +1,184 @@
 <template>
-  <div class="backlogin">
-    <div class="login_box">
-      <div class="title">后台登录</div>
-      <div>
-        <input type="text" placeholder="手机号/用户名" v-model="username" class="myinput" />
-      </div>
-      <div>
-        <input type="password" placeholder="口令" v-model="password" class="myinput" />
-      </div>
-      <div class="login_other">
-        <a href="javascript:;">找回密码</a>
-        <input type="checkbox" id="rememberme" /><label for="rememberme">记住我</label>
-      </div>
-      <button :disabled="disablebtn" @click="login" class="login">{{ loginText }}</button>
-    </div>
+  <div>
+  	<div class="login_box">
+      <el-tabs type="border-card">
+        <el-tab-pane label="登录">
+          <div class="top_bar">
+            <div class="name">微信</div>
+          </div>
+          <div style="height: 30px;"></div>
+          <el-input v-model="userName" placeholder="用户名"></el-input>
+          <div style="height: 30px;"></div>
+          <el-input v-model="password" placeholder="密码" show-password></el-input>
+          <div style="height: 50px;"></div>
+          <el-button type="success" icon="el-icon-check"  @click="login" circle></el-button>
+          <div style="height: 140px;"></div>
+        </el-tab-pane>
+        <el-tab-pane label="注册">
+          <div class="top_bar">
+            <div class="name">微信</div>
+          </div>
+          <div class="choose_head">
+            <div class="headimg">
+              <img :src="'../../static/headimg/'+headimgArr[current_head]" style="width:100px;"/>
+            </div>
+            <div class="to_left to" @click="change_head(-1)">〈</div>
+            <div class="to_right to" @click="change_head(1)">〉</div>
+          </div>
+          <div style="height: 20px;"></div>
+          <el-input v-model="nickname" placeholder="昵称"></el-input>
+          <div style="height: 30px;"></div>
+          <el-input v-model="userName2" placeholder="用户名"></el-input>
+          <div style="height: 30px;"></div>
+          <el-input v-model="password2" placeholder="密码" show-password></el-input>
+          <div style="height: 30px;"></div>
+          <el-button type="success" icon="el-icon-check"  @click="register" circle></el-button>
+          <div style="height: 140px;"></div>
+        </el-tab-pane>
+      </el-tabs>
+  	</div>
   </div>
 </template>
-<script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
+<script>  
 export default {
-  name: 'HelloWorld',
+  name: 'login',
   data () {
     return {
-      username: "admin", /* 先预存测试值，以免手动输入 */
-      password: "123456",
-      disablebtn: false,
-      loginText: "登录"
+      nickname:'',
+      userName:'',
+      password:'',
+      userName2:'',
+      password2:'',
+      current_head:0,
+      headimgArr:[
+      	'headimg01.jpg',
+      	'headimg02.jpg',
+      	'headimg03.jpg',
+      	'headimg04.jpg',
+      	'headimg05.jpg',
+      	'headimg06.jpg',
+      	'headimg07.jpg',
+      	'headimg08.jpg',
+      	'headimg09.jpg',
+      	'headimg10.jpg'
+      ]
     }
   },
+	mounted: function(){
+		this.current_head=Math.floor(Math.random()*this.headimgArr.length);
+	},
   methods: {
-    login () {
-      this.disablebtn = true
-      this.loginText = "登录中..."
-      this.$axios.post('/users/login', {
-        username: this.username,
-        password: this.password
-      }).then((result) => {
-        // 成功
-        console.log(result);
-        this.disablebtn = false
-        this.loginText = "登录"
-      }).catch((error) => {
-        // 失败
-        this.disablebtn = false
-        this.loginText = "登录"
-      })
+  	change_head(lr){
+  		if(lr==1){
+  			this.current_head++;
+				if(this.current_head>=this.headimgArr.length){
+					this.current_head=0;
+				}
+  		}else{
+  			if(this.current_head<=0){
+					this.current_head=this.headimgArr.length;
+				}
+  			this.current_head--;
+  		}
+  	},
+  	login(){
+      // 调用 LarkCloud 函数
+      axios.post(
+          'https://afwt8c.toutiao15.com/login',
+          { userName: this.userName,
+            password: this.password,
+          }
+      ).then(function(res) {
+          // 处理正常结果
+          const data = res.data;
+          console.log(data.result);
+      }).catch(function(error) {
+          // 处理异常结果
+          console.log(JSON.stringify(error));
+          console.log(error.result);
+      }).finally(function() {
+          console.log('调用登录完成');
+      });
+      var userInfo = {userName: this.userName};
+      this.$router.push({ name: 'chat', params: userInfo});
+    },
+    register(){
+      // 调用 LarkCloud 函数
+      axios.post(
+          'https://afwt8c.toutiao15.com/register',
+          { userName: this.userName2,
+            password: this.password2,
+            nickname: this.nickname,
+            headImg: this.headimgArr[this.current_head]
+          }
+      ).then(function(res) {
+          // 处理正常结果
+          const data = res.data;
+          console.log(data.result);
+      }).catch(function(error) {
+          // 处理异常结果
+          console.log(JSON.stringify(error));
+          console.log(error.result);
+      }).finally(function() {
+          console.log('调用注册完成');
+      });
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .login_box {
-    width: 320px;
-    margin: 50px auto;
-  }
-  .login_box .title {
-    color: #273444;
-    font-size: 1.5em;
-    text-align: center;
-    margin: 0 0 20px 0;
-  }
-  .login_box .myinput {
-    width: 100%;
-    border: 1px solid #cad3d3;
-    height: 40px;
-    line-height: 40px;
-    margin: 5px 0 10px;
-    border-radius: 3px;
-    padding: 0 10px;
-    outline: none;
-    box-sizing: border-box;
-  }
-  .login_box .myinput:focus {
-    border: 1px solid #4289dc;
-  }
-  .login_other {
-    overflow: hidden;
-  }
-  .login_other a {
-    float: right;
-    color: #727f8f;
-  }
-  .login_other a:hover {
-    color: #273444;
-  }
-  .login_other input, .login_other label {
-    float: left;
-    color: #727f8f;
-  }
-  .login_other input {
-    margin: 4px 5px 0 0;
-  }
-  .login {
-    box-sizing: border-box;
-    border: 0;
-    height: 44px;
-    line-height: 44px;
-    width: 100%;
-    background: #4187db;
-    font-size: 16px;
-    border-radius: 3px;
-    margin-right: 40px;
-    transition: all 0.5s ease;
-    cursor: pointer;
-    outline: none;
-    color: #fff;
-    margin-top: 15px;
-  }
-  .login:hover {
-    background: #2668b5;
-  }
-  .login[disabled] {
-    opacity: .8;
-  }
-  .login[disabled]:hover {
-    background: #4187db;
-  }
-  @media only screen and (max-width: 768px) {
-    .login_box {
-      width: 280px;
-      margin: 50px auto;
-    }
-  }
+	.login_box {
+		width: 350px;
+		height: 500px;
+		background: #f5f5f5;
+		border-radius: 4px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		-webkit-transform: translate(-50%,-50%);
+		overflow: hidden;
+		box-shadow: 0 0 10px 0px #999;
+	}
+	.top_bar {
+		width: 100%;
+		height: 64px;
+	}
+	.top_bar .name {
+		float: left;
+		font-size: 20px;
+		line-height: 64px;
+		margin-left: 26px;
+		color: #4a4a4a;
+	}
+	.choose_head {
+		width: 100%;
+		height: 100px;
+		position: relative;
+	}
+	.choose_head .headimg {
+		width: 100px;
+		height: 100px;
+		margin: 0 auto;
+		background: #999;
+	}
+	.choose_head .to {
+		position: absolute;
+		top: 36px;
+		font-size: 32px;
+		font-weight: bold;
+		color: #1aad19;
+		cursor: pointer;
+	}
+	.choose_head .to_left {
+		left: 30px;
+	}
+	.choose_head .to_right {
+		right: 30px;
+	}
 </style>
