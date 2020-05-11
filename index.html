@@ -7,9 +7,18 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
+    <script src="static/js/socket.io.js"></script>
   </head>
   <body>
     <div id="app"></div>
+    <script type="text/javascript">
+      var socket = io.connect("http://127.0.0.1:3000");
+      setTimeout(function(){
+        if(socket.connect == false){
+          alert("服务器暂时关闭！");
+        }
+      },1000)
+    </script>
     <!-- built files will be auto injected -->
   </body>
 </html>

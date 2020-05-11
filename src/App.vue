@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view v-wechat-title='$route.meta.title'></router-view>  <!--加入该句，可以修改网页的标题-->
   </div>
 
 </template>
