@@ -10,12 +10,18 @@ export default new Router({
     {
       path: '/',
       name: 'login',
-      component: login
+      component: login,
+      meta:{
+        title:'Login',  // 网页标题名
+      }
     },
     {
       path: '/chat',
       name: 'chat',
-      component: chat
+      component: chat,
+      meta:{
+        title:'Chat',
+      }
     }
   ]
 })
