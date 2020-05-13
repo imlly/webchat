@@ -229,6 +229,22 @@ export default {
             //console.log(data.result);
             //console.log(data.result.length);
             self.messageList = data.result;
+            //提取消息列表好友头像
+            for(var i=0; i<self.messageList.length; i++){
+                if(self.messageList[i].user1==self.userName){
+                    self.messageHead=self.messageList[i].user2;
+                }
+                else{
+                    self.messageHead=self.messageList[i].user1;
+                }
+                console.log(self.messageHead);
+                for(var j=0; j<self.friendList.length;j++){
+                    if(self.messageHead==self.friendList[j].friendName){
+                        self.messageListHead.push(self.friendList[j].friendHead);
+                        break;
+                    }
+                }
+            }
             if(data.result.length!=0){
                 if(self.messageList[0].user1 == this.userName)
                     self.chat_title=self.messageList[0].user2;
@@ -312,7 +328,7 @@ export default {
         //与服务器建立连接，持续监听服务器发来的消息
         socket.emit('user_info', {
             username: this.userName,
-        })
+        });
         socket.on(this.userName, function(msg){
             self.chat_list.push(msg);
             axios.post(
@@ -333,8 +349,7 @@ export default {
                 console.log('聊天记录已保存至数据库');
             })
         });
-        
-    },
+    },             
     beforeDestroy: function(){
     },
     methods:{
