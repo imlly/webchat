@@ -84,9 +84,6 @@
                 <div class="msg_box" id="msgbox">
                     <div class="more_record">查看更多消息</div>
                     <div>
-                        <div class="the_head">
-                            <img src="../../static/img/headimg02.jpg" style="width:50px;"/>
-                        </div>
                         <div class="msg_body">
                             <ul id="message">
                                 <li v-for="(chat_content,index) in chat_list" v-bind:key="index">
@@ -135,7 +132,11 @@ export default {
         myHead:'',
         nickname:'',
         newNick:'',
+<<<<<<< Updated upstream
         messageList:[],
+=======
+        messageList: [],
+>>>>>>> Stashed changes
         friendList:[],
         messageHead:'',
         messageListHead:[],
@@ -167,7 +168,12 @@ export default {
         message_show:0,
         chat_title:'',
         friend_show:0,
+<<<<<<< Updated upstream
         //friend_message:'',
+=======
+        friend_info:'',
+        send_text:'',
+>>>>>>> Stashed changes
         //friendNickname_show:''
         friend_info:'',
         send_text:'',
@@ -245,7 +251,11 @@ export default {
                     }
                 }
             }
+<<<<<<< Updated upstream
             if(data.result.length!=0){
+=======
+            if(data.result.length!=0) {
+>>>>>>> Stashed changes
                 if(self.messageList[0].user1 == this.userName)
                     self.chat_title=self.messageList[0].user2;
                 else
@@ -447,6 +457,47 @@ export default {
             });
             this.myHead = this.headimgArr[this.head_index];
         },
+        // 修改头像昵称
+        confirm_btn(){
+            if(this.newNick==''){
+                this.newNick = this.nickname;
+            }
+            axios.post(
+                'https://afwt8c.toutiao15.com/set_nickname',
+                {
+                    userName: this.userName,
+                    nickname: this.newNick
+                }
+            ).then((res)=>{
+                // 处理正常结果
+                const data = res.data;
+                console.log(data.result);
+            }).catch(function(error) {
+                // 处理异常结果
+                console.log(JSON.stringify(error));
+                console.log(error.result);
+            }).finally(function() {
+                console.log('修改昵称成功');
+            });
+            axios.post(
+                'https://afwt8c.toutiao15.com/set_headImg',
+                {
+                    userName: this.userName,
+                    headImg: this.headimgArr[this.head_index]
+                }
+            ).then((res)=>{
+                // 处理正常结果
+                const data = res.data;
+                console.log(data.result);
+            }).catch(function(error){
+                // 处理异常结果
+                console.log(JSON.stringify(error));
+                console.log(error.result);
+            }).finally(function(){
+                console.log('修改头像成功');
+            });
+            this.myHead = this.headimgArr[this.head_index];
+        },
         changeFriend(index){
             var self = this;
             this.friend_show=index;
@@ -476,10 +527,16 @@ export default {
             });*/
         },
         sendMessage(){
+<<<<<<< Updated upstream
             var msg = {source:this.userName, des:this.chat_title, message : this.send_text};
             socket.emit('send message', msg);
             this.chat_list.push(msg);
             //$(".text_box").val('');
+=======
+            var msg = {source:this.userName, des:this.chat_title,message : this.send_text};
+            socket.emit('send message', msg);
+            this.chat_list.push(msg);
+>>>>>>> Stashed changes
             this.send_text = '';
         }
     }
