@@ -20,11 +20,7 @@ export default new Router({
       name: 'chat',
       component: chat,
       meta:{
-<<<<<<< HEAD
-        title:'Chat',   
-=======
         title:'Chat',
->>>>>>> Chen-Wenhui
       }
     }
   ]
