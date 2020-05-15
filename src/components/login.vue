@@ -20,7 +20,7 @@
           </div>
           <div class="choose_head">
             <div class="headimg">
-              <img :src="'../../static/img/'+headimgArr[current_head]" style="width:100px;"/>
+              <img :src="'../../static/headimg/'+headimgArr[current_head]" style="width:100px;"/>
             </div>
             <div class="to_left to" @click="change_head(-1)">〈</div>
             <div class="to_right to" @click="change_head(1)">〉</div>
@@ -44,7 +44,6 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
 <script>  
-
 export default {
   name: 'login',
   data () {
@@ -104,8 +103,8 @@ export default {
       }).finally(function() {
           console.log('调用登录完成');
       });
-      var userinfo='用户数据';
-      this.$router.push({ name: 'chat', params: { userName: this.userName }});
+      var userInfo = {userName: this.userName};
+      this.$router.push({ name: 'chat', params: userInfo});
     },
     register(){
       // 调用 LarkCloud 函数
@@ -113,7 +112,8 @@ export default {
           'https://afwt8c.toutiao15.com/register',
           { userName: this.userName2,
             password: this.password2,
-            nickname: this.nickname 
+            nickname: this.nickname,
+            headImg: this.headimgArr[this.current_head]
           }
       ).then(function(res) {
           // 处理正常结果

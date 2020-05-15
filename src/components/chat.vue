@@ -3,16 +3,42 @@
         <div class="chat_box">
             <div class="panel_left">
                 <div class="left_bar">
+<<<<<<< HEAD
                     <div class="current_head">
                         <p>img</p>
                     </div>
                     <ul class="icon_list">
+=======
+                    <div class="current_head" @click="alterbox_show ? alterbox_show=0:alterbox_show=1">
+                        <img :src="'../../static/img/'+myHead" style="width:35px; height:35px;"/>
+                    </div>
+                    <div class="alter_box" v-show="alterbox_show">
+                        <div class="choose_head" @click="alterbox_show=1">
+                            <div class="headimg">
+                                <img :src="require('../../static/img/'+headimgArr[head_index])" style="width:70px;"/>
+                            </div>
+                            <div class="to_left to" @click="change_profile(-1)">〈</div>
+                            <div class="to_right to" @click="change_profile(1)">〉</div>
+                        </div>
+                        <div class="nick" @click="alterbox_show=1">
+                            <input v-model="newNick" type="text" :placeholder="nickname" onfocus="this.placeholder=''"/>
+                        </div>
+                        <div class="confirm">
+                            <button @click="confirm_btn();alterbox_show=0">Done</button>
+                        </div>
+                    </div>
+                    <ul class="icon_list" @click="alterbox_show=0">
+>>>>>>> Chen-Wenhui
                         <li @click="changeIcon(index)" v-for="(icon,index) in icons" v-bind:key="index">
   							<img v-show="icon_show==index" :src="'../../static/img/'+icons_[index]" style="width:35px; margin-left:-55px;"/>
   							<img v-show="icon_show!=index" :src="'../../static/img/'+icons[index]" style="width:35px; margin-left:-55px;"/>
   						</li>
                     </ul>
+<<<<<<< HEAD
                     <div class="more">
+=======
+                    <div class="more" @click="alterbox_show=0">
+>>>>>>> Chen-Wenhui
                         <span></span>
                         <span></span>
                         <span></span>
@@ -30,7 +56,11 @@
                         <li style="margin-left: -40px;" @click="changeMessage(index)" v-for="(message,index) in messageList" v-bind:key="index">
                             <div class="info">
                                 <div class="user_head">
+<<<<<<< HEAD
                                     <img src="../../static/img/headimg02.jpg" style="width:50px;margin-top:-5px;"/>
+=======
+                                    <img :src="'../../static/img/'+messageListHead[index]" style="width:50px;margin-top:-5px;"/>
+>>>>>>> Chen-Wenhui
                                     <span class="fubiao"></span>
                                 </div>
                                 <div class="user_info">
@@ -47,7 +77,11 @@
                         <li style="margin-left: -40px;" @click="changeFriend(index)" v-for="(friend,index) in friendList" v-bind:key="index">
                             <div class="info">
                                 <div class="user_head">
+<<<<<<< HEAD
                                     <img src="../../static/img/headimg02.jpg" style="width:50px;margin-top:-5px;"/>
+=======
+                                    <img :src="'../../static/img/'+friend.friendHead" style="width:50px;margin-top:-5px;"/>
+>>>>>>> Chen-Wenhui
                                     <span class="fubiao"></span>
                                 </div>
                                 <div class="user_info">
@@ -69,14 +103,21 @@
                 <div class="msg_box" id="msgbox">
                     <div class="more_record">查看更多消息</div>
                     <div>
+<<<<<<< HEAD
                         <div class="the_head">
                             <img src="../../static/img/headimg02.jpg" style="width:50px;"/>
                         </div>
+=======
+>>>>>>> Chen-Wenhui
                         <div class="msg_body">
                             <ul id="message">
                                 <li v-for="(chat_content,index) in chat_list" v-bind:key="index">
                                     <div style="width:100%;height:60px">
+<<<<<<< HEAD
                                         <div  v-bind:class="userName===chat_content.source?'send':'receive'">
+=======
+                                        <div v-bind:class="userName===chat_content.source?'send':'receive'">
+>>>>>>> Chen-Wenhui
                                             <div class="name">{{ chat_content.source }}</div>
                                             <div class="text">{{ chat_content.message }}</div>
                                         </div>
@@ -85,6 +126,7 @@
                                 </li>
                             </ul>
                         </div>
+<<<<<<< HEAD
                     </div>    
                 </div>
                 <div>
@@ -92,13 +134,25 @@
                         <div class="face_icon" title="表情"></div>
                     </div>
                     <textarea class="text_box"></textarea>
+=======
+                    </div>
+                </div>
+                <div class="send_box">
+                    <div class="top_bar">
+                        <div class="face_icon" title="表情"></div>
+                    </div>
+                    <textarea class="text_box" v-model="send_text"></textarea>
+>>>>>>> Chen-Wenhui
                     <div class="send_btn" @click="sendMessage()">发送</div>
                 </div>
             </div>
             <div class="panel_right" v-show="icon_show==1">
                 <div style="margin-top:200px;">
                     <div>{{friend_info.userName}}</div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> Chen-Wenhui
                     <div>
                         <p><span>备注：</span>{{friend_info.note}}</p>
                         <el-button type="success">发消息</el-button>
@@ -108,19 +162,40 @@
         </div>
     </div>
 </template>
+<<<<<<< HEAD
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
 
 
+=======
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
+>>>>>>> Chen-Wenhui
 <script>
 export default {
     name: 'chat',
     data () {
         return {
         userName:'',
+<<<<<<< HEAD
         messageList: [],
         friendList:[],
+=======
+        myHead:'',
+        nickname:'',
+        newNick:'',
+<<<<<<< Updated upstream
+        messageList:[],
+=======
+        messageList: [],
+>>>>>>> Stashed changes
+        friendList:[],
+        messageHead:'',
+        messageListHead:[],
+>>>>>>> Chen-Wenhui
         icons:[
             'chat_icon.png',
             'user_icon.png',
@@ -131,10 +206,28 @@ export default {
             'user_icon_.png',
             'box_icon_.png'
         ],
+<<<<<<< HEAD
+=======
+        headimgArr:[
+      	'headimg01.jpg',
+      	'headimg02.jpg',
+      	'headimg03.jpg',
+      	'headimg04.jpg',
+      	'headimg05.jpg',
+      	'headimg06.jpg',
+      	'headimg07.jpg',
+      	'headimg08.jpg',
+      	'headimg09.jpg',
+      	'headimg10.jpg'
+        ],
+        head_index: 0,
+        alterbox_show: 0,
+>>>>>>> Chen-Wenhui
         icon_show: 0,
         message_show:0,
         chat_title:'',
         friend_show:0,
+<<<<<<< HEAD
         friend_info:'',
         //friendNickname_show:''
         //用于装载聊天信息
@@ -145,6 +238,63 @@ export default {
         this.userName=this.$route.params.userName
         console.log('欢迎'+this.userName);
         var self = this;
+=======
+<<<<<<< Updated upstream
+        //friend_message:'',
+=======
+        friend_info:'',
+        send_text:'',
+>>>>>>> Stashed changes
+        //friendNickname_show:''
+        friend_info:'',
+        send_text:'',
+        chat_list:[]
+        }
+    },
+    mounted: function(){
+        this.userName=this.$route.params.userName;
+        console.log('欢迎'+this.userName);
+        var self = this;
+        // 获取用户头像
+        axios.post(
+            'https://afwt8c.toutiao15.com/get_headImg',
+            {
+                userName: this.userName
+            }
+        ).then((res)=>{
+            // 处理正常结果
+            const data = res.data;
+            self.myHead = data.result;
+            for(var i=0;i < 10;i++){
+                if(self.myHead==self.headimgArr[i]){
+                    self.head_index = i;
+                    break;
+                }
+            }
+            //console.log(self.head_index);
+        }).catch(function(error) {
+            // 处理异常结果
+            console.log(JSON.stringify(error));
+            console.log(error.result);
+        }).finally(function() {
+            console.log('请求头像成功');
+        });
+        // 请求用户昵称
+        axios.post(
+            'https://afwt8c.toutiao15.com/get_nickname',
+            {
+                userName: this.userName
+            }
+        ).then((res)=>{
+            const data = res.data;
+            self.nickname = data.result;
+        }).catch(function(error){
+            console.log(JSON.stringify(error));
+            console.log(error.result);
+        }).finally(function() {
+          console.log('请求用户昵称成功');
+        });
+>>>>>>> Chen-Wenhui
         // 请求最近消息列表
         axios.post(
             'https://afwt8c.toutiao15.com/get_message_list',
@@ -156,10 +306,35 @@ export default {
             const data = res.data;
             //console.log(data.result);
             //console.log(data.result.length);
+<<<<<<< HEAD
 
             self.messageList = data.result;
             //console.log(self.messageList);
             if(data.result.length!=0) {
+=======
+            self.messageList = data.result;
+            //提取消息列表好友头像
+            for(var i=0; i<self.messageList.length; i++){
+                if(self.messageList[i].user1==self.userName){
+                    self.messageHead=self.messageList[i].user2;
+                }
+                else{
+                    self.messageHead=self.messageList[i].user1;
+                }
+                console.log(self.messageHead);
+                for(var j=0; j<self.friendList.length;j++){
+                    if(self.messageHead==self.friendList[j].friendName){
+                        self.messageListHead.push(self.friendList[j].friendHead);
+                        break;
+                    }
+                }
+            }
+<<<<<<< Updated upstream
+            if(data.result.length!=0){
+=======
+            if(data.result.length!=0) {
+>>>>>>> Stashed changes
+>>>>>>> Chen-Wenhui
                 if(self.messageList[0].user1 == this.userName)
                     self.chat_title=self.messageList[0].user2;
                 else
@@ -216,7 +391,26 @@ export default {
             // 处理正常结果
             const data = res.data;
             self.friendList = data.result;
+<<<<<<< HEAD
 
+=======
+            //提取消息列表好友头像
+            for(var i=0; i<self.messageList.length; i++){
+                if(self.messageList[i].user1==self.userName){
+                    self.messageHead=self.messageList[i].user2;
+                }
+                else{
+                    self.messageHead=self.messageList[i].user1;
+                }
+                console.log(self.messageHead);
+                for(var j=0; j<self.friendList.length;j++){
+                    if(self.messageHead==self.friendList[j].friendName){
+                        self.messageListHead.push(self.friendList[j].friendHead);
+                        break;
+                    }
+                }
+            }
+>>>>>>> Chen-Wenhui
         }).catch(function(error) {
             // 处理异常结果
             console.log(JSON.stringify(error));
@@ -227,7 +421,11 @@ export default {
         //与服务器建立连接，持续监听服务器发来的消息
         socket.emit('user_info', {
             username: this.userName,
+<<<<<<< HEAD
         })
+=======
+        });
+>>>>>>> Chen-Wenhui
         socket.on(this.userName, function(msg){
             self.chat_list.push(msg);
             axios.post(
@@ -235,7 +433,11 @@ export default {
                 {
                     sender:msg.source,
                     receiver:msg.des,
+<<<<<<< HEAD
                     message:msg.message
+=======
+                    message:msg.message,
+>>>>>>> Chen-Wenhui
                 }
             ).then((res)=>{
                 //处理正常结果
@@ -248,18 +450,46 @@ export default {
                 console.log('聊天记录已保存至数据库');
             })
         });
+<<<<<<< HEAD
     },
     beforeDestroy: function(){
 
     },
     methods:{
+=======
+    },             
+    beforeDestroy: function(){
+    },
+    methods:{
+        change_profile(lr){
+  		    if(lr==1){
+  			    this.head_index++;
+				    if(this.head_index>=this.headimgArr.length){
+					this.head_index=0;
+				    }
+  		    }else{
+  			    if(this.head_index<=0){
+					this.head_index=this.headimgArr.length;
+				}
+  			    this.head_index--;
+  		    }
+  	    },
+>>>>>>> Chen-Wenhui
         changeIcon(index){
   		    this.icon_show=index;
           },
         changeMessage(index){
+<<<<<<< HEAD
             if(this.message_show != index){
                 this.message_show=index;
                 this.chat_title=(this.messageList[index].user1 == self.userName?this.messageList[index].user1:this.messageList[index].user2);
+=======
+            //this.message_show=index;
+            //this.chat_title=this.messageList[index].friendName;
+            if(this.message_show != index){
+                this.message_show = index;
+                this.chat_title=(this.messageList[index].user1 == this.userName?this.messageList[index].user2:this.messageList[index].user1);
+>>>>>>> Chen-Wenhui
                 console.log("changeMessage",this.chat_title);
                 //默认获取最近的5条聊天记录
                 axios.post(
@@ -289,7 +519,93 @@ export default {
                 }).finally(function() {
                     console.log("获取聊天记录成功！")
                 });
+<<<<<<< HEAD
             }
+=======
+            }  
+        },
+        // 修改头像昵称
+        confirm_btn(){
+            if(this.newNick==''){
+                this.newNick = this.nickname;
+            }
+            axios.post(
+                'https://afwt8c.toutiao15.com/set_nickname',
+                {
+                    userName: this.userName,
+                    nickname: this.newNick
+                }
+            ).then((res)=>{
+                // 处理正常结果
+                const data = res.data;
+                console.log(data.result);
+            }).catch(function(error) {
+                // 处理异常结果
+                console.log(JSON.stringify(error));
+                console.log(error.result);
+            }).finally(function() {
+                console.log('修改昵称成功');
+            });
+            axios.post(
+                'https://afwt8c.toutiao15.com/set_headImg',
+                {
+                    userName: this.userName,
+                    headImg: this.headimgArr[this.head_index]
+                }
+            ).then((res)=>{
+                // 处理正常结果
+                const data = res.data;
+                console.log(data.result);
+            }).catch(function(error){
+                // 处理异常结果
+                console.log(JSON.stringify(error));
+                console.log(error.result);
+            }).finally(function(){
+                console.log('修改头像成功');
+            });
+            this.myHead = this.headimgArr[this.head_index];
+        },
+        // 修改头像昵称
+        confirm_btn(){
+            if(this.newNick==''){
+                this.newNick = this.nickname;
+            }
+            axios.post(
+                'https://afwt8c.toutiao15.com/set_nickname',
+                {
+                    userName: this.userName,
+                    nickname: this.newNick
+                }
+            ).then((res)=>{
+                // 处理正常结果
+                const data = res.data;
+                console.log(data.result);
+            }).catch(function(error) {
+                // 处理异常结果
+                console.log(JSON.stringify(error));
+                console.log(error.result);
+            }).finally(function() {
+                console.log('修改昵称成功');
+            });
+            axios.post(
+                'https://afwt8c.toutiao15.com/set_headImg',
+                {
+                    userName: this.userName,
+                    headImg: this.headimgArr[this.head_index]
+                }
+            ).then((res)=>{
+                // 处理正常结果
+                const data = res.data;
+                console.log(data.result);
+            }).catch(function(error){
+                // 处理异常结果
+                console.log(JSON.stringify(error));
+                console.log(error.result);
+            }).finally(function(){
+                console.log('修改头像成功');
+            });
+            this.myHead = this.headimgArr[this.head_index];
+>>>>>>> Chen-Wenhui
         },
         changeFriend(index){
             var self = this;
@@ -309,7 +625,11 @@ export default {
             ).then((res)=>{
                 // 处理正常结果
                 const data = res.data;
+<<<<<<< HEAD
                 self.friend_info = data.result;
+=======
+                self.friend_message = data.result;
+>>>>>>> Chen-Wenhui
                 //console.log(data.result);
             }).catch(function(error) {
                 // 处理异常结果
@@ -320,10 +640,24 @@ export default {
             });*/
         },
         sendMessage(){
+<<<<<<< HEAD
             var msg = {source:this.userName, des:this.chat_title,message : $(".text_box").val()};
             socket.emit('send message', msg);
             this.chat_list.push(msg);
             $(".text_box").val('');
+=======
+<<<<<<< Updated upstream
+            var msg = {source:this.userName, des:this.chat_title, message : this.send_text};
+            socket.emit('send message', msg);
+            this.chat_list.push(msg);
+            //$(".text_box").val('');
+=======
+            var msg = {source:this.userName, des:this.chat_title,message : this.send_text};
+            socket.emit('send message', msg);
+            this.chat_list.push(msg);
+>>>>>>> Stashed changes
+            this.send_text = '';
+>>>>>>> Chen-Wenhui
         }
     }
 }
@@ -336,10 +670,17 @@ export default {
     }
     .chat_box {
         width: 900px;
+<<<<<<< HEAD
     height: 640px;
     overflow: hidden;
     border-radius: 4px;
     background: #f5f5f5;
+=======
+        height: 640px;
+        overflow: hidden;
+        border-radius: 4px;
+        background: #f5f5f5;
+>>>>>>> Chen-Wenhui
         position: absolute;
         top: 50%;
         left: 50%;
@@ -393,6 +734,113 @@ export default {
         height: 35px;
         background: #ccc;
         margin: 20px auto 21px;
+<<<<<<< HEAD
+=======
+        cursor: pointer;
+    }
+    .left_bar .alter_box {
+        width: 250px;
+		height: 230px;
+		background: #323232;
+		position: absolute;
+		z-index: 1000;
+		left: 59px;
+		top: 14px;
+    }
+    .left_bar .alter_box>div {
+		width: 100%;
+		color: #8c8c8c;
+		font-size: 14px;
+		line-height: 46px;
+		padding-left: 12px;
+		box-sizing: border-box;
+        cursor:default;
+	}
+    .left_bar .alter_box>div:hover {
+		background: #3c3c3c;
+	}
+    .choose_head {
+        width: 100%;
+		height: 120px;
+		position: relative;
+    }
+    .choose_head .headimg {
+        position: absolute;
+        top: 27px;
+		width: 70px;
+		height: 70px;
+		left: 95px;
+		background: #999;
+	}
+    .choose_head .to {
+        -webkit-user-select:none;
+        -moz-user-select:none;
+        -ms-user-select:none;
+        user-select:none;
+		position: absolute;
+		top: 36px;
+		font-size: 26px;
+		font-weight: bold;
+		color: #1aad19;
+		cursor: pointer;
+	}
+	.choose_head .to_left {
+		left: 35px;
+	}
+	.choose_head .to_right {
+		right: 25px;
+	}
+    .nick {
+        height: 50px;
+    }
+    .nick>input {
+        height: 25px;
+        background: #323232;
+        border: 1px;
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 15px;
+        outline:none;
+    }
+    .nick>input::-webkit-input-placeholder {
+        text-align: center;
+        color: #FFFFFF;
+        font-size: 15px;
+    }
+    .nick>input::-moz-placeholder {
+        text-align: center;
+        color: #FFFFFF;
+        font-size: 15px;
+    }
+    .nick>input:-moz-placeholder {
+        text-align: center;
+        color: #FFFFFF;
+        font-size: 15px;
+    }
+    .nick>input:-ms-input-placeholder {
+        text-align: center;
+        color: #FFFFFF;
+        font-size: 15px;
+    }
+    .confirm {
+        height: 60px;
+    }
+    .confirm>button {
+        position: absolute;
+        left: 92px;
+        bottom: 11px;
+        height: 38px;
+        width: 80px;
+        font-size: 15px;
+        color: #FFFFFF;
+        background: #323232;
+        border: 1px solid #323232;
+        cursor: pointer;
+        outline:none;
+    }
+    .confirm>button:active{
+        background: #3c3c3c;
+>>>>>>> Chen-Wenhui
     }
     .icon_list {
         width: 35px;

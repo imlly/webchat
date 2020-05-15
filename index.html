@@ -3,11 +3,19 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<<<<<<< HEAD
     <title>theproject</title>
+=======
+    <title>webchat</title>
+>>>>>>> Chen-Wenhui
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
     <script src="static/js/socket.io.js"></script>
+<<<<<<< HEAD
+=======
+
+>>>>>>> Chen-Wenhui
   </head>
   <body>
     <div id="app"></div>
@@ -20,5 +28,13 @@
       },1000)
     </script>
     <!-- built files will be auto injected -->
+    <script type="text/javascript">
+      var socket = io.connect("http://127.0.0.1:3000");
+      setTimeout(function(){
+        if(socket.connect == false){
+          alert("服务器暂时关闭！");
+        }
+      },1000)
+    </script>
   </body>
 </html>
