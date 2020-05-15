@@ -104,9 +104,6 @@
                     <div class="more_record">查看更多消息</div>
                     <div>
 <<<<<<< HEAD
-                        <div class="the_head">
-                            <img src="../../static/img/headimg02.jpg" style="width:50px;"/>
-                        </div>
 =======
 >>>>>>> Chen-Wenhui
                         <div class="msg_body">
