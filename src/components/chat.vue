@@ -123,7 +123,7 @@
                                 <li v-for="(chat_content,index) in chat_list" v-bind:key="index">
                                     <div style="width:100%;height:60px">
                                         <div v-bind:class="userName===chat_content.source?'send':'receive'">
-                                            <div class="name">{{ chat_content.source }}</div>
+                                            
                                             <div class="text">{{ chat_content.message }}</div>
                                         </div>
                                         <br>
@@ -1316,11 +1316,13 @@ export default {
     .send {
         width: 30%;
         float:right;
-        background-color: #129611;
+        background-color: #4cdd4c;
+        border-radius: 4px;
     }
     .receive {
         width: 30%;
         float:left;
-        background-color: white;
+        background-color: rgb(196, 191, 191);
+        border-radius: 4px;
     }
 </style>
