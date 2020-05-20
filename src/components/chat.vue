@@ -66,7 +66,7 @@
                                     <span class="fubiao"></span>
                                 </div>
                                 <div class="user_info">
-                                    <div class="user_name">{{friend.friendNickname}}</div>
+                                    <div class="user_name">{{friend['friendNickname']}}</div>
                                     <div class="user_msg"></div>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                 <div style="text-align: left; margin-top:5%;">
                     <div>
                         <hr style="width:75%; border:0; background-color:#ff0000; height:1px;"><br>
-                        <p style="margin-left: 20%;"><span>备注：</span>{{friendList[this.friend_show].friendNickname}}</p>
+                        <p style="margin-left: 20%;"><span>备注：</span>{{friendList[this.friend_show]['friendNickname']}}</p>
                         <p style="margin-left: 20%;"><span>地区：</span>{{friend_info.region}}</p>
                         <p style="margin-left: 20%;"><span>用户名：</span>{{friend_info.userName}}</p>
                         <br><hr style="width:75%; border:0; background-color:#ff0000; height:1px;">
@@ -628,7 +628,6 @@ export default {
         },
         
         changeFriend(index){
-            var self = this;
             this.friend_show=index;
             /*
             this.friend_info={
@@ -636,16 +635,17 @@ export default {
                 note: this.friendList[this.friend_show].friendNickname
             }*/
             //this.friendNickname_show=this.friendList[this.friend_show].friendNickname;
+            console.log("friendList",this.friendList);
             // 请求好友信息
             axios.post(
                 'https://afwt8c.toutiao15.com/get_friend',
                 { 
-                    userName: this.friendList[this.friend_show].friendName
+                    userName: this.friendList[this.friend_show]['friendName']
                 }
             ).then((res)=>{
                 // 处理正常结果
                 const data = res.data;
-                self.friend_info = data.result;
+                this.friend_info = data.result;
                 //console.log(data.result);
             }).catch(function(error) {
                 // 处理异常结果
