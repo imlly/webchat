@@ -354,6 +354,7 @@ export default {
             // 处理正常结果
             const data = res.data;
             self.friendList = data.result;
+            console.log(self.friendList);
             //提取消息列表好友头像
             for(var i=0; i<self.messageList.length; i++){
                 if(self.messageList[i].user1==self.userName){
@@ -362,7 +363,6 @@ export default {
                 else{
                     self.messageHead=self.messageList[i].user1;
                 }
-                console.log(self.messageHead);
                 for(var j=0; j<self.friendList.length;j++){
                     if(self.messageHead==self.friendList[j].friendName){
                         self.messageListHead.push(self.friendList[j].friendHead);
@@ -423,21 +423,135 @@ export default {
   		    }
   	    },
         changeIcon(index){
-  		    this.icon_show=index;
+              this.icon_show=index;
+              if(index==0)
+              {
+                // 请求最近消息列表
+                axios.post(
+                    'https://afwt8c.toutiao15.com/get_message_list',
+                    { 
+                        userName: this.userName
+                    }
+                ).then((res)=>{
+                    // 处理正常结果
+                    const data = res.data;
+                    //console.log(data.result);
+                    //console.log(data.result.length);
+                    this.messageList = data.result;
+                    //提取消息列表好友头像
+                    for(var i=0; i<this.messageList.length; i++){
+                        if(this.messageList[i].user1==this.userName){
+                            this.messageHead=this.messageList[i].user2;
+                        }
+                        else{
+                            this.messageHead=this.messageList[i].user1;
+                        }
+                        console.log(this.messageHead);
+                        for(var j=0; j<this.friendList.length;j++){
+                            if(this.messageHead==this.friendList[j].friendName){
+                                this.messageListHead.push(this.friendList[j].friendHead);
+                                break;
+                            }
+                        }
+                    }
+                    if(data.result.length!=0) {
+                        if(this.messageList[0].user1 == this.userName)
+                            this.chat_title=this.messageList[0].user2;
+                        else
+                            this.chat_title=this.messageList[0].user1;
+                        // 请求列表第一个人的聊天记录
+                        axios.post(
+                            'https://afwt8c.toutiao15.com/get_chat_record',
+                            {
+                                userName:this.userName,
+                                friendName:this.chat_title,
+                                num: 5
+                            }
+                        ).then((res)=>{
+                            //处理正常结果
+                            const data = res.data;
+                            console.log(data.result.length);
+                            this.chat_list = [];
+                            for(var i = data.result.length - 1;i >= 0;i--)
+                            {
+                                if(data.result[i].sender == 1){
+                                    this.chat_list.push({source: data.result[i].user1, des:data.result[i].user2, message:data.result[i].message});
+                                }
+                                else{
+                                    this.chat_list.push({source: data.result[i].user2, des:data.result[i].user1, message:data.result[i].message});
+                                }
+                            };
+                        }).catch(function(error) {
+                            // 处理异常结果
+                            console.log(JSON.stringify(error));
+                            console.log(error.result);
+                        }).finally(function() {
+                            console.log("获取聊天记录成功！");
+                        });
+                    }
+                    //console.log(self.messageList[0].createdAt);
+                    
+                    // for(var index = 0;index < self.messageList.length;index++){
+                    //     console.log(self.messageList[index]);
+                    // }
+                }).catch(function(error) {
+                    // 处理异常结果
+                    console.log(JSON.stringify(error));
+                    console.log(error.result);
+                }).finally(function() {
+                console.log('请求最近消息列表成功');
+                });
+              }
+              else if(index==1)
+              {
+                // 请求好友列表
+                axios.post(
+                    'https://afwt8c.toutiao15.com/get_friend_list',
+                    { 
+                        userName: this.userName
+                    }
+                ).then((res)=>{
+                    // 处理正常结果
+                    const data = res.data;
+                    this.friendList = data.result;
+                    //提取消息列表好友头像
+                    for(var i=0; i<this.messageList.length; i++){
+                        if(this.messageList[i].user1==this.userName){
+                            this.messageHead=this.messageList[i].user2;
+                        }
+                        else{
+                            this.messageHead=this.messageList[i].user1;
+                        }
+                        console.log(this.messageHead);
+                        for(var j=0; j<this.friendList.length;j++){
+                            if(this.messageHead==this.friendList[j].friendName){
+                                this.messageListHead.push(this.friendList[j].friendHead);
+                                break;
+                            }
+                        }
+                    }
+                }).catch(function(error) {
+                    // 处理异常结果
+                    console.log(JSON.stringify(error));
+                    console.log(error.result);
+                }).finally(function() {
+                console.log('请求好友列表成功');
+                });
+              }
           },
         changeMessage(index){
             //this.message_show=index;
             //this.chat_title=this.messageList[index].friendName;
             if(this.message_show != index){
                 this.message_show = index;
-                self.chat_title=(this.messageList[index].user1 == this.userName?this.messageList[index].user2:this.messageList[index].user1);
-                console.log("changeMessage",self.chat_title);
+                this.chat_title=(this.messageList[index].user1 == this.userName?this.messageList[index].user2:this.messageList[index].user1);
+                console.log("changeMessage",this.chat_title);
                 //默认获取最近的5条聊天记录
                 axios.post(
                     'https://afwt8c.toutiao15.com/get_chat_record',
                     {
                         userName:this.userName,
-                        friendName:self.chat_title,
+                        friendName:this.chat_title,
                         num: 5
                     }
                 ).then((res)=>{
