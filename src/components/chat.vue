@@ -123,7 +123,7 @@
                                 <li v-for="(chat_content,index) in chat_list" v-bind:key="index">
                                     <div style="width:100%;height:60px">
                                         <div v-bind:class="userName===chat_content.source?'send':'receive'">
-                                            <div class="name">{{ chat_content.source }}</div>
+                                            
                                             <div class="text">{{ chat_content.message }}</div>
                                         </div>
                                         <br>
@@ -142,13 +142,24 @@
                 </div>
             </div>
             <div class="panel_right" v-show="icon_show==1">
-                <div style="margin-top:200px;">
-                    <div>{{friend_info.userName}}</div>
+                <div style="text-align: left; margin-left: 20%; margin-top: 15%; float:left">
+                    <p>{{friend_info.nickname}}</p>
+                    <p>{{friend_info.sign}}</p>
+                </div>
+                <div style="margin-top: 15%;">
+                    <img :src="'../../static/img/'+friend_info.headImg" style="width:80px"/>
+                </div>
+                <div style="text-align: left; margin-top:5%;">
                     <div>
-                        <p><span>备注：</span>{{friend_info.note}}</p>
-                        <el-button type="success">发消息</el-button>
+                        <hr style="width:75%; border:0; background-color:#ff0000; height:1px;"><br>
+                        <p style="margin-left: 20%;"><span>备注：</span>{{friendList[this.friend_show].friendNickname}}</p>
+                        <p style="margin-left: 20%;"><span>地区：</span>{{friend_info.region}}</p>
+                        <p style="margin-left: 20%;"><span>用户名：</span>{{friend_info.userName}}</p>
+                        <br><hr style="width:75%; border:0; background-color:#ff0000; height:1px;">
+                        <br>
                     </div>
                 </div>
+                <el-button type="success" @click="jumpMessage()">发消息</el-button>
             </div>
             <div class="panel_right" v-show="icon_show==3">
                 <div style="margin-top:200px;" v-show="not_add==1">
@@ -619,22 +630,22 @@ export default {
         changeFriend(index){
             var self = this;
             this.friend_show=index;
+            /*
             this.friend_info={
                 userName: this.friendList[this.friend_show].friendName,
                 note: this.friendList[this.friend_show].friendNickname
-            }
+            }*/
             //this.friendNickname_show=this.friendList[this.friend_show].friendNickname;
-            /*
             // 请求好友信息
             axios.post(
                 'https://afwt8c.toutiao15.com/get_friend',
                 { 
-                    userName: this.friendList[index].friendName
+                    userName: this.friendList[this.friend_show].friendName
                 }
             ).then((res)=>{
                 // 处理正常结果
                 const data = res.data;
-                self.friend_message = data.result;
+                self.friend_info = data.result;
                 //console.log(data.result);
             }).catch(function(error) {
                 // 处理异常结果
@@ -642,7 +653,8 @@ export default {
                 console.log(error.result);
             }).finally(function() {
             console.log('请求好友信息成功');
-            });*/
+            //console.log(self.friend_info);
+            });
         },
         sendMessage(){
             var msg = {source:this.userName, des:this.chat_title, message : this.send_text};
@@ -715,6 +727,11 @@ export default {
                 
             })
         },
+        // 点击发消息跳转页面
+        jumpMessage()
+        {
+            this.icon_show = 0;
+        }
     }
 }
 </script>
@@ -1316,11 +1333,13 @@ export default {
     .send {
         width: 30%;
         float:right;
-        background-color: #129611;
+        background-color: #4cdd4c;
+        border-radius: 4px;
     }
     .receive {
         width: 30%;
         float:left;
-        background-color: white;
+        background-color: rgb(196, 191, 191);
+        border-radius: 4px;
     }
 </style>
