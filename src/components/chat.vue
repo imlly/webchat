@@ -91,7 +91,7 @@
                             <p>联系人:</p>
                             <div v-show="linkmanList.length == 0">提示：联系人不存在</div>
                         </div>
-                        <li style="margin-left: -40px;" v-for="(linkman,index) in linkmanList" v-bind:key="'linkman' + index">
+                        <li style="margin-left: -40px;" @click="jumpMessage_Search(index)" v-for="(linkman,index) in linkmanList" v-bind:key="'linkman' + index">
                             <div class="user_head">
                                 <img :src="'../../static/img/'+linkman.headImg" style="width:50px;margin-top:-5px;"/>
                             </div>
@@ -405,24 +405,16 @@ export default {
             username: this.userName,
         });
         socket.on(this.userName, function(msg){
-            self.chat_list.push(msg);
-            axios.post(
-                'https://afwt8c.toutiao15.com/add_chat_record',
+            if(msg.source == self.chat_title)
+                self.chat_list.push(msg);
+            for(let i = 0;i < self.messageList.length;i++)
+            {
+                let tempName = (self.messageList[i].user1 == self.userName ? self.messageList[i].user2 : self.messageList[i].user1);
+                if(msg.source == tempName)
                 {
-                    sender:msg.source,
-                    receiver:msg.des,
-                    message:msg.message,
+                    self.messageList[i].message = msg.message;
                 }
-            ).then((res)=>{
-                //处理正常结果
-                
-            }).catch((error)=>{
-                // 处理异常结果
-                console.log(JSON.stringify(error));
-                console.log(error.result);
-            }).finally(()=>{
-                console.log('聊天记录已保存至数据库');
-            })
+            }
         });
     },             
     beforeDestroy: function(){
@@ -693,6 +685,23 @@ export default {
             socket.emit('send message', msg);
             this.chat_list.push(msg);
             this.send_text = '';
+            axios.post(
+                'https://afwt8c.toutiao15.com/add_chat_record',
+                {
+                    sender:msg.source,
+                    receiver:msg.des,
+                    message:msg.message,
+                }
+            ).then((res)=>{
+                //处理正常结果
+                
+            }).catch((error)=>{
+                // 处理异常结果
+                console.log(JSON.stringify(error));
+                console.log(error.result);
+            }).finally(()=>{
+                console.log('聊天记录已保存至数据库');
+            })
         },
         //搜索好友
         searchUser(index){
@@ -772,7 +781,22 @@ export default {
                     break;
                 }
             }
-        }
+        },
+        //点击搜索结果中的好友跳转页面
+        jumpMessage_Search(index)
+        {
+            this.icon_show = 0;
+            for(let i = 0;i < this.messageList.length;i++)
+            {
+                let tempName;
+                this.userName==this.messageList[i].user1 ? tempName = this.messageList[i].user2 : tempName = this.messageList[i].user1;
+                if(tempName == this.linkmanList[index]['userName'])
+                {
+                    this.changeMessage(i);
+                    break;
+                }
+            }
+        }
     }
 }
 </script>
