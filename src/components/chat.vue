@@ -40,7 +40,7 @@
                     </div>
                     <div style="text-align: left;" class="more_box" v-show="setbox_show" @click="setbox_show=0">
   						<div>意见反馈</div>
-                        <div>设置</div>
+                        <div @click="configbox_show=1">设置</div>
   					</div>
                     
                 </div>
@@ -207,6 +207,12 @@
                     <el-button type="success" @click="addFriend()">添加好友</el-button>
                 </div>
             </div>
+
+            <div class="configbox" v-show="configbox_show" style="text-align:left;">
+                <p style="margin-left:4%;">设置
+                    <span @click="configbox_show=0" style="margin-left:80%; font-size:30px;">×</span>
+                </p>
+            </div>
         </div>
     </div>
 </template>
@@ -268,6 +274,8 @@ export default {
         alterbox_show: 0,
         // 其他设置框
         setbox_show: 0,
+        // 设置框
+        configbox_show: 0,
         icon_show: 0,
         message_show:0,
         chat_title:'',
@@ -1086,6 +1094,20 @@ export default {
         color: #FFFFFF;
         font-size: 15px;
     }
+    .configbox {
+		width: 550px;
+		height: 470px;
+		background: #f5f5f5;
+		box-shadow: 0 0 8px 0px #d3d3d3;
+		z-index: 10;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		-webkit-transform: translate(-50%,-50%);
+		border-radius: 2px;
+		border: 1px solid #ccc;
+	}
     .confirm {
         height: 60px;
     }
@@ -1445,87 +1467,6 @@ export default {
     }
     .left_bar .more_box>div:hover {
         background: #3c3c3c;
-    }
-    .feedback {
-        width: 360px;
-        height: 250px;
-        background: #f5f5f5;
-        box-shadow: 0 0 8px 0px #d3d3d3;
-        z-index: 10;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        -webkit-transform: translate(-50%,-50%);
-        border-radius: 2px;
-        border: 1px solid #ccc;
-    }
-    .feedback .top_bar {
-        width: 100%;
-        height: 40px;
-        box-sizing: border-box;
-    }
-    .feedback .top_bar .title {
-        float: left;
-        font-size: 12px;
-        margin-left: 12px;
-        line-height: 40px;
-        color: #333;
-    }
-    .feedback .close>span {
-        width: 10px !important;
-    }
-    .feedback .feedbacktext {
-        width: 338px;
-        height: 150px;
-        margin: 0 auto;
-        outline: none;
-        resize:none;
-        font-size: 14px;
-        border: 1px solid #dcdcdc;
-        background: #fff;
-        display: block;
-        padding: 24px 16px;
-        box-sizing: border-box;
-    }
-    .feedback .btn_group {
-        width: 150px;
-        height: 26px;
-        margin-top: 16px;
-        margin-left: 200px;
-    }
-    .feedback .btn_group>div {
-        float: left;
-        width: 70px;
-        height: 100%;
-        background: #fff;
-        font-size: 14px;
-        text-align: center;
-        line-height: 26px;
-        color: #666;
-        cursor: pointer;
-    }
-    .feedback .btn_group .back {
-        float: right;
-        border: 1px solid #dcdcdc;
-    }
-    .feedback .btn_group .back:hover {
-        background: #f5f5f5;
-    }
-    .feedback .btn_group .sure {
-        background: #87d087;
-        color: #fff;
-    }
-    .feedback .btn_group .sure2 {
-        background: #1aad19;
-    }
-    .feedback .close span {
-        width: 10px !important;
-        height: 2px;
-        background: #777;
-    }
-    .feedback .close:hover span {
-        background: #fff;
     }
     .sendEmpty {
         width: 114px;
