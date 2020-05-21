@@ -136,7 +136,12 @@
                     <div class="send_btn" @click="sendMessage()">发送</div>
                 </div>
             </div>
-            <div class="panel_right" v-show="icon_show==1">
+            
+            <!--显示好友信息-->
+            <div class="panel_right" v-show="icon_show==1 && friend_show==-1">
+                <img :src="'../../static/img/'+'friendListBackground.png'" style="width:100%"/>
+            </div>
+            <div class="panel_right" v-show="icon_show==1 && friend_show!=-1">
                 <div class="friendBox">
                     <p>{{friend_info.nickname}}</p>
                     <p>{{friend_info.sign}}</p>
@@ -159,6 +164,7 @@
                 </div>
                 <el-button type="success" @click="jumpMessage()">发消息</el-button>
             </div>
+
             <div class="panel_right" v-show="icon_show==3">
                 <div style="margin-top:200px;" v-show="not_add==1">
                     <p><span>昵称：</span>{{userInfo['nickname']}}</p>
@@ -222,7 +228,7 @@ export default {
         icon_show: 0,
         message_show:0,
         chat_title:'',
-        friend_show: 0,
+        friend_show: -1,
         friend_info:'',
         send_text:'',
         //friendNickname_show:''
