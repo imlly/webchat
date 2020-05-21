@@ -66,7 +66,11 @@
                                     <span class="fubiao"></span>
                                 </div>
                                 <div class="user_info">
+<<<<<<< HEAD
                                     <!--<div class="user_name">{{friend.friendNickname}}</div>-->
+=======
+                                    <div class="user_name">{{friend['friendNickname']}}</div>
+>>>>>>> master
                                     <div class="user_msg"></div>
                                 </div>
                             </div>
@@ -123,7 +127,7 @@
                                 <li v-for="(chat_content,index) in chat_list" v-bind:key="index">
                                     <div style="width:100%;height:60px">
                                         <div v-bind:class="userName===chat_content.source?'send':'receive'">
-                                            <div class="name">{{ chat_content.source }}</div>
+                                            
                                             <div class="text">{{ chat_content.message }}</div>
                                         </div>
                                         <br>
@@ -152,7 +156,7 @@
                 <div style="text-align: left; margin-top:5%;">
                     <div>
                         <hr style="width:75%; border:0; background-color:#ff0000; height:1px;"><br>
-                        <p style="margin-left: 20%;"><span>备注：</span>{{friendList[this.friend_show].friendNickname}}</p>
+                        <p style="margin-left: 20%;"><span>备注：</span>{{friendList[this.friend_show]['friendNickname']}}</p>
                         <p style="margin-left: 20%;"><span>地区：</span>{{friend_info.region}}</p>
                         <p style="margin-left: 20%;"><span>用户名：</span>{{friend_info.userName}}</p>
                         <br><hr style="width:75%; border:0; background-color:#ff0000; height:1px;">
@@ -628,7 +632,6 @@ export default {
         },
         
         changeFriend(index){
-            var self = this;
             this.friend_show=index;
             /*
             this.friend_info={
@@ -636,16 +639,17 @@ export default {
                 note: this.friendList[this.friend_show].friendNickname
             }*/
             //this.friendNickname_show=this.friendList[this.friend_show].friendNickname;
+            console.log("friendList",this.friendList);
             // 请求好友信息
             axios.post(
                 'https://afwt8c.toutiao15.com/get_friend',
                 { 
-                    userName: this.friendList[this.friend_show].friendName
+                    userName: this.friendList[this.friend_show]['friendName']
                 }
             ).then((res)=>{
                 // 处理正常结果
                 const data = res.data;
-                self.friend_info = data.result;
+                this.friend_info = data.result;
                 //console.log(data.result);
             }).catch(function(error) {
                 // 处理异常结果
@@ -1333,11 +1337,13 @@ export default {
     .send {
         width: 30%;
         float:right;
-        background-color: #129611;
+        background-color: #4cdd4c;
+        border-radius: 4px;
     }
     .receive {
         width: 30%;
         float:left;
-        background-color: white;
+        background-color: rgb(196, 191, 191);
+        border-radius: 4px;
     }
 </style>
