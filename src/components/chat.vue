@@ -865,6 +865,23 @@ export default {
                 {
                     var msg = {source:this.userName, des:this.userInfo['userName'], message : "你们已经是好友了，马上开始聊天吧"};
                     socket.emit('send message', msg);
+                    axios.post(
+                        'https://afwt8c.toutiao15.com/add_chat_record',
+                        {
+                            sender:msg.source,
+                            receiver:msg.des,
+                            message:msg.message,
+                        }
+                    ).then((res)=>{
+                        //处理正常结果
+                        
+                    }).catch((error)=>{
+                        // 处理异常结果
+                        console.log(JSON.stringify(error));
+                        console.log(error.result);
+                    }).finally(()=>{
+                        console.log('聊天记录已保存至数据库');
+                    })
                 }
             }).catch(function(error) {
                 //处理异常结果
