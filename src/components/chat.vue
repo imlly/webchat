@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             <div class="other">
-                                <div class="time">{{message.createdAt}}</div>
+                                <div class="time">{{message.createdAt[11]+message.createdAt[12]+message.createdAt[13]+message.createdAt[14]+message.createdAt[15]}}</div>
                             </div>
                         </li>
                     </ul>
@@ -130,12 +130,12 @@
                     <div class="more_record">查看更多消息</div>
                     <div>
                         <div class="msg_body">
-                            <ul id="message">
+                            <ul id="message" style="padding-left: 0px;">
                                 <li v-for="(chat_content,index) in chat_list" v-bind:key="index">
-                                    <div style="width:100%;height:60px">
+                                    <div style="width:100%;height:40px">
                                         <div v-bind:class="userName===chat_content.source?'send':'receive'">
-                                            <div class="name">{{ chat_content.source }}</div>
-                                            <div class="text" v-html="chat_content.message"></div>
+                                            
+                                            <div class="text" v-html="chat_content.message" style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:5px;"></div>
                                         </div>
                                         <br>
                                     </div>
@@ -1457,13 +1457,15 @@ export default {
         line-height: 20px;
     }
     .send {
-        width: 30%;
+        width: auto;
         float:right;
-        background-color: #129611;
+        background-color: #23bb23;
+        border-radius: 5px;
     }
     .receive {
-        width: 30%;
+        width: auto;
         float:left;
-        background-color: white;
+        background-color: rgba(214, 211, 211, 0.692);
+        border-radius: 5px;
     }
 </style>
