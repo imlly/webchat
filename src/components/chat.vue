@@ -38,6 +38,7 @@
                         <span></span>
                         <span></span>
                     </div>
+                    
                 </div>
 
                 <div class="online_box">
@@ -566,6 +567,7 @@ export default {
                 console.log('请求好友列表成功');
                 });
                 // 请求好友信息
+                /*
                 axios.post(
                 'https://afwt8c.toutiao15.com/get_friend',
                 { 
@@ -584,6 +586,7 @@ export default {
                     console.log('请求好友信息成功');
                     //console.log(self.friend_info);
                 });
+                */
               }
           },
         changeMessage(index){
