@@ -853,17 +853,37 @@ export default {
         // 点击发消息跳转页面
         jumpMessage(){
             this.icon_show = 0;
+            var judge = 0;
             for(let i = 0;i < this.messageList.length;i++)
             {
                 if(this.userName==this.messageList[i].user1) var tempName = this.messageList[i].user2;
                 else var tempName = this.messageList[i].user1;
                 if(tempName==this.friendList[this.friend_show]['friendName'])
                 {
-                    console.log(i);
+                    //console.log(i);
+                    judge = 1;
                     this.changeMessage(i);
                     break;
                 }
             }
+            /*
+            if(judge==0){
+                axios.post(
+                    'https://afwt8c.toutiao15.com/add_chat_record',
+                    {
+                        sender:this.userName,
+                        receiver:this.friendList[this.friend_show]['friendName'],
+                    }
+                ).then((res)=>{
+                    //处理正常结
+                }).catch((error)=>{
+                    // 处理异常结果
+                    console.log(JSON.stringify(error));
+                    console.log(error.result);
+                }).finally(()=>{
+                    console.log('已添加空消息');
+                })
+            } */
         },
         //点击搜索结果中的好友跳转页面
         jumpMessage_Search(index)
