@@ -834,8 +834,9 @@ export default {
         },
         // 显示设置框
         setbox(){
-            this.alterbox_show=0
-            this.setbox_show=1
+            if(this.alterbox_show==0) this.alterbox_show=1;
+            else this.alterbox_show=0;
+            this.setbox_show=1;
         },
     }
 }
