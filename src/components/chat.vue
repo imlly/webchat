@@ -753,10 +753,21 @@ export default {
             })
         },
         // 点击发消息跳转页面
-        jumpMessage()
-        {
-            this.icon_show = 0;
-        }
+        jumpMessage()
+        {
+            this.icon_show = 0;
+            //console.log(this.friendList[this.friend_show]['friendName']);
+            for(let i = 0;i < this.messageList.length;i++)
+            {
+                if(this.userName==this.messageList[i].user1) var tempName = this.messageList[i].user2;
+                else var tempName = this.messageList[i].user1;
+                if(tempName==this.friendList[this.friend_show]['friendName']){
+                    console.log(i);
+                    this.changeMessage(i);
+                    break;
+                }
+            }
+        }
     }
 }
 </script>
