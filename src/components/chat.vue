@@ -152,9 +152,9 @@
                 <div style="text-align: left; margin-top:5%;">
                     <div>
                         <hr style="width:75%; border:0; background-color:#ff0000; height:1px;"><br>
-                        <p style="margin-left: 20%;"><span>备注：</span>{{friendList[this.friend_show]['friendNickname']}}</p>
-                        <p style="margin-left: 20%;"><span>地区：</span>{{friend_info.region}}</p>
-                        <p style="margin-left: 20%;"><span>用户名：</span>{{friend_info.userName}}</p>
+                        <!-- <p style="margin-left: 20%;"><span>备注：</span>{{ friendList[friend_show]['friendNickname'] }}</p> -->
+                        <p style="margin-left: 20%;"><span>地区：</span>{{ friend_info.region }}</p>
+                        <p style="margin-left: 20%;"><span>用户名：</span>{{ friend_info.userName }}</p>
                         <br><hr style="width:75%; border:0; background-color:#ff0000; height:1px;">
                         <br>
                     </div>
@@ -223,7 +223,7 @@ export default {
         icon_show: 0,
         message_show:0,
         chat_title:'',
-        friend_show:0,
+        friend_show: 0,
         friend_info:'',
         send_text:'',
         //friendNickname_show:''
