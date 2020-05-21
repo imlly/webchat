@@ -3,9 +3,13 @@
         <div class="chat_box">
             <div class="panel_left">
                 <div class="left_bar">
+
+                    <!--头像-->
                     <div class="current_head" @click="alterbox_show ? alterbox_show=0:alterbox_show=1">
                         <img :src="'../../static/img/'+myHead" style="width:35px; height:35px;"/>
                     </div>
+
+                    <!--设置用户头像和昵称-->
                     <div class="alter_box" v-show="alterbox_show">
                         <div class="choose_head" @click="alterbox_show=1">
                             <div class="headimg">
@@ -21,6 +25,8 @@
                             <button @click="confirm_btn();alterbox_show=0">Done</button>
                         </div>
                     </div>
+
+                    <!--菜单栏-->
                     <ul class="icon_list" @click="alterbox_show=0">
                         <li @click="changeIcon(index)" v-for="(icon,index) in icons" v-bind:key="index">
   							<img v-show="icon_show==index" :src="'../../static/img/'+icons_[index]" style="width:35px; margin-left:-55px;"/>
@@ -32,8 +38,12 @@
                         <span></span>
                         <span></span>
                     </div>
+                    
                 </div>
+
                 <div class="online_box">
+
+                    <!--搜索框-->
                     <div class="search_box">
                         <div class="search_bar">
                             <input type="text" v-model="searchName" placeholder="搜索"/>
@@ -41,8 +51,10 @@
                             <div class="search_icon" @click="searchUser(3)"></div>
                         </div>
                     </div>
+
+                    <!--最近消息列表-->
                     <ul class="online_list" v-show="icon_show==0">
-                        <li style="margin-left: -40px;" @click="changeMessage(index)" v-for="(message,index) in messageList" v-bind:key="index">
+                        <li style="margin-left:-40px;" @click="changeMessage(index)" v-for="(message,index) in messageList" v-bind:key="index" :class="index==message_show?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
                                     <img :src="'../../static/img/'+messageListHead[index]" style="width:50px;margin-top:-5px;"/>
@@ -58,8 +70,10 @@
                             </div>
                         </li>
                     </ul>
+
+                    <!--好友列表-->
                     <ul class="online_list" v-show="icon_show==1">
-                        <li style="margin-left: -40px;" @click="changeFriend(index)" v-for="(friend,index) in friendList" v-bind:key="index">
+                        <li style="margin-left: -40px;" @click="changeFriend(index)" v-for="(friend,index) in friendList" v-bind:key="index" :class="index==friend_show?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
                                     <img :src="'../../static/img/'+friend.friendHead" style="width:50px;margin-top:-5px;"/>
@@ -71,6 +85,7 @@
                             </div>
                         </li>
                     </ul>
+
                     <ul class="online_list" v-show="icon_show==3">
                         <div class="noUser">
                             <p>用户:</p>
@@ -105,6 +120,7 @@
             </div>
 
 
+            <!--聊天界面-->
             <div class="panel_right" v-show="icon_show==0">
                 <div class="chatTitle_bar">
                     <div class="title">{{chat_title}}</div>
@@ -552,6 +568,7 @@ export default {
                 console.log('请求好友列表成功');
                 });
                 // 请求好友信息
+                /*
                 axios.post(
                 'https://afwt8c.toutiao15.com/get_friend',
                 { 
@@ -570,6 +587,7 @@ export default {
                     console.log('请求好友信息成功');
                     //console.log(self.friend_info);
                 });
+                */
               }
           },
         changeMessage(index){
@@ -1067,6 +1085,9 @@ export default {
         background: #c9c9c9;
     }
     .online_list li:hover {
+        background: #d8d8d8;
+    }
+    .online_list .clicked {
         background: #d8d8d8;
     }
     .online_list li .info {
