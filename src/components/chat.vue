@@ -33,11 +33,15 @@
   							<img v-show="icon_show!=index" :src="'../../static/img/'+icons[index]" style="width:35px; margin-left:-55px;"/>
   						</li>
                     </ul>
-                    <div class="more" @click="alterbox_show=0">
+                    <div class="more" @click="setbox()">
                         <span></span>
                         <span></span>
                         <span></span>
                     </div>
+                    <div style="text-align: left;" class="more_box" v-show="setbox_show" @click="setbox_show=0">
+  						<div>意见反馈</div>
+                        <div>设置</div>
+  					</div>
                     
                 </div>
 
@@ -240,7 +244,10 @@ export default {
         ],
         write_flag: 0,
         head_index: 0,
+        // 头像、昵称设置框
         alterbox_show: 0,
+        // 其他设置框
+        setbox_show: 0,
         icon_show: 0,
         message_show:0,
         chat_title:'',
@@ -824,7 +831,12 @@ export default {
                     break;
                 }
             }
-        }
+        },
+        // 显示设置框
+        setbox(){
+            this.alterbox_show=0
+            this.setbox_show=1
+        },
     }
 }
 </script>
