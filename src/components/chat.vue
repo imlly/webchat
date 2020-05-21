@@ -62,7 +62,7 @@
                             <div class="info">
                                 <div class="user_head">
                                     <img :src="'../../static/img/'+messageListHead[index]" style="width:50px;margin-top:-5px;"/>
-                                    <span class="fubiao"></span>
+                                    <!--<span class="fubiao"></span>-->
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{ userName==message.user1?message.user2:message.user1 }}</div>
@@ -77,6 +77,17 @@
 
                     <!--好友列表-->
                     <ul class="online_list" v-show="icon_show==1">
+                        <li style="margin-left: -40px;" @click="changeFriend(-2)" :class="friend_show==-2?'clicked':'unclicked'">
+                            <div class="info">
+                                <div class="user_head">
+                                    <img :src="'../../static/img/'+'addIcon.png'" style="width:50px;margin-top:-5px;"/>
+                                </div>
+                                <div class="user_info">
+                                    <div class="user_name">新的朋友</div>
+                                    <div class="user_msg"></div>
+                                </div>
+                            </div>
+                        </li>
                         <li style="margin-left: -40px;" @click="changeFriend(index)" v-for="(friend,index) in friendList" v-bind:key="index" :class="index==friend_show?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
@@ -159,10 +170,13 @@
             </div>
             
             <!--显示好友信息-->
+            <div class="panel_right" v-show="icon_show==1 && friend_show==-2">
+                <p>新的朋友在哪里？</p>
+            </div>
             <div class="panel_right" v-show="icon_show==1 && friend_show==-1">
                 <img :src="'../../static/img/'+'friendListBackground.png'" style="width:100%"/>
             </div>
-            <div class="panel_right" v-show="icon_show==1 && friend_show!=-1">
+            <div class="panel_right" v-show="icon_show==1 && friend_show>-1">
                 <div class="friendBox">
                     <p>{{friend_info.nickname}}</p>
                     <p>{{friend_info.sign}}</p>
@@ -733,26 +747,28 @@ export default {
                 note: this.friendList[this.friend_show].friendNickname
             }*/
             this.friend_show=index;
-            console.log("friendList",this.friendList);
+            // console.log("friendList",this.friendList);
             // 请求好友信息
-            axios.post(
-                'https://afwt8c.toutiao15.com/get_friend',
-                { 
-                    userName: this.friendList[this.friend_show]['friendName']
-                }
-            ).then((res)=>{
-                // 处理正常结果
-                const data = res.data;
-                this.friend_info = data.result;
-                //console.log(data.result);
-            }).catch(function(error) {
-                // 处理异常结果
-                console.log(JSON.stringify(error));
-                console.log(error.result);
-            }).finally(function() {
-            console.log('请求好友信息成功');
-            //console.log(self.friend_info);
-            });
+            if(index>-1){
+                axios.post(
+                    'https://afwt8c.toutiao15.com/get_friend',
+                    { 
+                        userName: this.friendList[this.friend_show]['friendName']
+                    }
+                ).then((res)=>{
+                    // 处理正常结果
+                    const data = res.data;
+                    this.friend_info = data.result;
+                    //console.log(data.result);
+                }).catch(function(error) {
+                    // 处理异常结果
+                    console.log(JSON.stringify(error));
+                    console.log(error.result);
+                }).finally(function() {
+                console.log('请求好友信息成功');
+                //console.log(self.friend_info);
+                });
+            }
         },
         sendMessage(){
             this.send_text = this.obj.replaceFace(this.send_text);
