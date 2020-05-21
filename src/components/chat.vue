@@ -413,6 +413,7 @@ export default {
                 if(msg.source == tempName)
                 {
                     self.messageList[i].message = msg.message;
+                    break;
                 }
             }
         });
@@ -685,6 +686,15 @@ export default {
             socket.emit('send message', msg);
             this.chat_list.push(msg);
             this.send_text = '';
+            for(let i = 0;i < this.messageList.length;i++)
+            {
+                let tempName = (this.messageList[i].user1 == this.userName ? this.messageList[i].user2 : this.messageList[i].user1);
+                if(msg.des == tempName)
+                {
+                    this.messageList[i].message = msg.message;
+                    break;
+                }
+            }
             axios.post(
                 'https://afwt8c.toutiao15.com/add_chat_record',
                 {
