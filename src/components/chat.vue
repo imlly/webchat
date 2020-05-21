@@ -5,7 +5,7 @@
                 <div class="left_bar">
 
                     <!--头像-->
-                    <div class="current_head" @click="alterbox_show ? alterbox_show=0:alterbox_show=1">
+                    <div class="current_head" @click="setbox2()">
                         <img :src="'../../static/img/'+myHead" style="width:35px; height:35px;"/>
                     </div>
 
@@ -27,7 +27,7 @@
                     </div>
 
                     <!--菜单栏-->
-                    <ul class="icon_list" @click="alterbox_show=0">
+                    <ul class="icon_list" @click="hidebox()">
                         <li @click="changeIcon(index)" v-for="(icon,index) in icons" v-bind:key="index">
   							<img v-show="icon_show==index" :src="'../../static/img/'+icons_[index]" style="width:35px; margin-left:-55px;"/>
   							<img v-show="icon_show!=index" :src="'../../static/img/'+icons[index]" style="width:35px; margin-left:-55px;"/>
@@ -834,9 +834,19 @@ export default {
         },
         // 显示设置框
         setbox(){
+            if(this.setbox_show==0) this.setbox_show=1;
+            else this.setbox_show=0;
+            this.alterbox_show=0;
+        },
+        setbox2(){
             if(this.alterbox_show==0) this.alterbox_show=1;
             else this.alterbox_show=0;
-            this.setbox_show=1;
+            this.setbox_show=0;
+        },
+        // 隐藏设置框
+        hidebox(){
+            this.alterbox_show=0;
+            this.setbox_show=0;
         },
     }
 }
