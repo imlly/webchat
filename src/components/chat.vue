@@ -66,7 +66,7 @@
                                     <span class="fubiao"></span>
                                 </div>
                                 <div class="user_info">
-                                    <div class="user_name">{{friend.friendNickname}}</div>
+                                    <!--<div class="user_name">{{friend.friendNickname}}</div>-->
                                     <div class="user_msg"></div>
                                 </div>
                             </div>
