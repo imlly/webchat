@@ -399,7 +399,8 @@ export default {
             username: this.userName,
         });
         socket.on(this.userName, function(msg){
-            self.chat_list.push(msg);
+            if(msg.des == self.chat_title)
+                self.chat_list.push(msg);
             axios.post(
                 'https://afwt8c.toutiao15.com/add_chat_record',
                 {
