@@ -61,7 +61,7 @@
                         <li style="margin-left:-40px;" @click="changeMessage(index)" v-for="(message,index) in messageList" v-bind:key="index" :class="index==message_show?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src="'../../static/img/'+messageListHead[index]" style="width:50px;margin-top:-5px;"/>
+                                    <img :src="'../../static/img/'+message['friendHead']" style="width:50px;margin-top:-5px;"/>
                                     <!--<span class="fubiao"></span>-->
                                 </div>
                                 <div class="user_info">
@@ -239,8 +239,6 @@ export default {
         not_add:0,
         userInfo:{},
 
-        messageHead:'',
-        messageListHead:[],
         icons:[
             'chat_icon.png',
             'user_icon.png',
@@ -356,19 +354,6 @@ export default {
             //提取消息列表好友头像
             for(var i=0; i<self.messageList.length; i++){
                 self.messageList[i].message = self.obj.replaceFace(self.messageList[i].message);
-                if(self.messageList[i].user1==self.userName){
-                    self.messageHead=self.messageList[i].user2;
-                }
-                else{
-                    self.messageHead=self.messageList[i].user1;
-                }
-                console.log(self.messageHead);
-                for(var j=0; j<self.friendList.length;j++){
-                    if(self.messageHead==self.friendList[j].friendName){
-                        self.messageListHead.push(self.friendList[j].friendHead);
-                        break;
-                    }
-                }
             }
             if(data.result.length!=0) {
                 if(self.messageList[0].user1 == this.userName)
@@ -428,22 +413,6 @@ export default {
             // 处理正常结果
             const data = res.data;
             self.friendList = data.result;
-            //提取消息列表好友头像
-            for(var i=0; i<self.messageList.length; i++){
-                if(self.messageList[i].user1==self.userName){
-                    self.messageHead=self.messageList[i].user2;
-                }
-                else{
-                    self.messageHead=self.messageList[i].user1;
-                }
-                console.log(self.messageHead);
-                for(var j=0; j<self.friendList.length;j++){
-                    if(self.messageHead==self.friendList[j].friendName){
-                        self.messageListHead.push(self.friendList[j].friendHead);
-                        break;
-                    }
-                }
-            }
         }).catch(function(error) {
             // 处理异常结果
             console.log(JSON.stringify(error));
@@ -504,23 +473,6 @@ export default {
                     //console.log(data.result);
                     //console.log(data.result.length);
                     this.messageList = data.result;
-                    //提取消息列表好友头像
-                    for(var i=0; i<this.messageList.length; i++){
-                        this.messageList[i].message = this.obj.replaceFace(this.messageList[i].message);
-                        if(this.messageList[i].user1==this.userName){
-                            this.messageHead=this.messageList[i].user2;
-                        }
-                        else{
-                            this.messageHead=this.messageList[i].user1;
-                        }
-                        console.log(this.messageHead);
-                        for(var j=0; j<this.friendList.length;j++){
-                            if(this.messageHead==this.friendList[j].friendName){
-                                this.messageListHead.push(this.friendList[j].friendHead);
-                                break;
-                            }
-                        }
-                    }
                     if(data.result.length!=0) {
                         if(this.messageList[0].user1 == this.userName)
                             this.chat_title=this.messageList[0].user2;
@@ -582,22 +534,6 @@ export default {
                     // 处理正常结果
                     const data = res.data;
                     this.friendList = data.result;
-                    //提取消息列表好友头像
-                    for(var i=0; i<this.messageList.length; i++){
-                        if(this.messageList[i].user1==this.userName){
-                            this.messageHead=this.messageList[i].user2;
-                        }
-                        else{
-                            this.messageHead=this.messageList[i].user1;
-                        }
-                        console.log(this.messageHead);
-                        for(var j=0; j<this.friendList.length;j++){
-                            if(this.messageHead==this.friendList[j].friendName){
-                                this.messageListHead.push(this.friendList[j].friendHead);
-                                break;
-                            }
-                        }
-                    }
                 }).catch(function(error) {
                     // 处理异常结果
                     console.log(JSON.stringify(error));
