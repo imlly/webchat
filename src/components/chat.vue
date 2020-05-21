@@ -66,11 +66,7 @@
                                     <span class="fubiao"></span>
                                 </div>
                                 <div class="user_info">
-<<<<<<< HEAD
-                                    <!--<div class="user_name">{{friend.friendNickname}}</div>-->
-=======
                                     <div class="user_name">{{friend['friendNickname']}}</div>
->>>>>>> master
                                     <div class="user_msg"></div>
                                 </div>
                             </div>
@@ -185,7 +181,9 @@ export default {
     data () {
         return {
         userName:'',
+        // 最近消息列表
         messageList: [],
+        // 好友列表
         friendList:[],
         myHead:'',
         nickname:'',
@@ -224,10 +222,14 @@ export default {
         ],
         head_index: 0,
         alterbox_show: 0,
+        // 选中的图标
         icon_show: 0,
+        // 最近消息列表选中的消息
         message_show:0,
         chat_title:'',
+        // 好友列表选中的好友
         friend_show:0,
+        // 好友列表选中的好友的信息
         friend_info:'',
         send_text:'',
         //friendNickname_show:''
@@ -735,6 +737,19 @@ export default {
         jumpMessage()
         {
             this.icon_show = 0;
+            console.log(this.friendList[this.friend_show]['friendName']);
+            console.log(this.messageList[1]);
+            console.log(this.messageList[1]['friendName']);
+            for(let i = 0;i < this.messageList.length;i++)
+            {
+                if(this.userName==this.messageList[i].user1) var tempName = this.messageList[i].user2;
+                else var tempName = this.messageList[i].user1;
+                if(tempName==this.friendList[this.friend_show]['friendName']){
+                    console.log(i);
+                    this.changeMessage(i);
+                    break;
+                }
+            }
         }
     }
 }
