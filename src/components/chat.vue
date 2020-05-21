@@ -15,7 +15,7 @@
                             <div class="to_right to" @click="change_profile(1)">〉</div>
                         </div>
                         <div class="nick" @click="alterbox_show=1">
-                            <input v-model="newNick" type="text" :placeholder="nickname" onfocus="this.placeholder=''"/>
+                            <input v-model="newNick" type="text" :placeholder="nickname"/>
                         </div>
                         <div class="confirm">
                             <button @click="confirm_btn();alterbox_show=0">Done</button>
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{ userName==message.user1?message.user2:message.user1 }}</div>
-                                    <div class="user_msg">{{message.message}}</div>
+                                    <div class="user_msg" v-html="message.message"></div>
                                 </div>
                             </div>
                             <div class="other">
@@ -63,25 +63,23 @@
                             <div class="info">
                                 <div class="user_head">
                                     <img :src="'../../static/img/'+friend.friendHead" style="width:50px;margin-top:-5px;"/>
-                                    <span class="fubiao"></span>
                                 </div>
                                 <div class="user_info">
-                                    <div class="user_name">{{friend['friendNickname']}}</div>
+                                    <div class="user_name">{{friend.friendNickname}}</div>
                                     <div class="user_msg"></div>
                                 </div>
                             </div>
                         </li>
                     </ul>
                     <ul class="online_list" v-show="icon_show==3">
-                        <div style="margin-left: -40px;margin: 1px;">
-                            <p style="text-align: left;color: gray">用户:</p>
-                            <p v-show="userList.length == 0">提示：用户不存在</p>
+                        <div class="noUser">
+                            <p>用户:</p>
+                            <div v-show="userList.length == 0">提示：用户不存在</div>
                         </div>
                         <li style="margin-left: -40px;" @click="showUserInfo(index)" v-for="(user,index) in userList" v-bind:key="'user' + index">
                             <div class="info">
                                 <div class="user_head">
                                     <img :src="'../../static/img/'+user.headImg" style="width:50px;margin-top:-5px;"/>
-                                    <span class="fubiao"></span>
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{user.nickname}}</div>
@@ -89,20 +87,17 @@
                                 </div>
                             </div>
                         </li>
-                        <div style="margin-left: -40px;margin: 1px;">
-                            <p style="text-align: left;color: gray">联系人:</p>
-                            <p v-show="linkmanList.length == 0">提示：联系人不存在</p>
+                        <div class="noUser">
+                            <p>联系人:</p>
+                            <div v-show="linkmanList.length == 0">提示：联系人不存在</div>
                         </div>
                         <li style="margin-left: -40px;" v-for="(linkman,index) in linkmanList" v-bind:key="'linkman' + index">
-                            <div class="info">
-                                <div class="user_head">
-                                    <img :src="'../../static/img/'+linkman.headImg" style="width:50px;margin-top:-5px;"/>
-                                    <span class="fubiao"></span>
-                                </div>
-                                <div class="user_info">
-                                    <div class="user_name">{{linkman.nickname}}</div>
-                                    <div class="user_msg"></div>
-                                </div>
+                            <div class="user_head">
+                                <img :src="'../../static/img/'+linkman.headImg" style="width:50px;margin-top:-5px;"/>
+                            </div>
+                            <div class="user_info">
+                                <div class="user_name">{{linkman.nickname}}</div>
+                                <div class="user_msg"></div>
                             </div>
                         </li>
                     </ul>
@@ -123,8 +118,8 @@
                                 <li v-for="(chat_content,index) in chat_list" v-bind:key="index">
                                     <div style="width:100%;height:60px">
                                         <div v-bind:class="userName===chat_content.source?'send':'receive'">
-                                            
-                                            <div class="text">{{ chat_content.message }}</div>
+                                            <div class="name">{{ chat_content.source }}</div>
+                                            <div class="text" v-html="chat_content.message"></div>
                                         </div>
                                         <br>
                                     </div>
@@ -133,30 +128,33 @@
                         </div>
                     </div>
                 </div>
-                <div class="send_box">
+                <div :class="['send_box',{'focus':write_flag}]">
                     <div class="top_bar">
                         <div class="face_icon" title="表情"></div>
                     </div>
-                    <textarea class="text_box" v-model="send_text"></textarea>
+                    <textarea class="text_box" v-model="send_text" @focus="write_flag=1" @focusout="write_flag=0"></textarea>
                     <div class="send_btn" @click="sendMessage()">发送</div>
                 </div>
             </div>
             <div class="panel_right" v-show="icon_show==1">
-                <div style="text-align: left; margin-left: 20%; margin-top: 15%; float:left">
+                <div class="friendBox">
                     <p>{{friend_info.nickname}}</p>
                     <p>{{friend_info.sign}}</p>
                 </div>
-                <div style="margin-top: 15%;">
+                <div class="friendImg">
                     <img :src="'../../static/img/'+friend_info.headImg" style="width:80px"/>
                 </div>
-                <div style="text-align: left; margin-top:5%;">
+                <div class="friendInfo">
                     <div>
-                        <hr style="width:75%; border:0; background-color:#ff0000; height:1px;"><br>
-                        <p style="margin-left: 20%;"><span>备注：</span>{{friendList[this.friend_show]['friendNickname']}}</p>
-                        <p style="margin-left: 20%;"><span>地区：</span>{{friend_info.region}}</p>
-                        <p style="margin-left: 20%;"><span>用户名：</span>{{friend_info.userName}}</p>
-                        <br><hr style="width:75%; border:0; background-color:#ff0000; height:1px;">
-                        <br>
+                        <ul v-for="(friend,index) in friendList" v-bind:key="index">
+                            <li v-if="index==friend_show">
+                                <hr class="friendLine"><br>
+                                <p class="hehe"><span>备注：</span>{{friend.friendNickname}}</p>
+                                <p class="hehe"><span>地区：</span>{{friend_info.region}}</p>
+                                <p class="hehe"><span>用户名：</span>{{friend_info.userName}}</p>
+                                <br><hr class="friendLine">
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <el-button type="success" @click="jumpMessage()">发消息</el-button>
@@ -187,7 +185,7 @@ export default {
         nickname:'',
         newNick:'',
         messageList: [],
-        //搜索相关
+        // 搜索相关
         userList:[],
         linkmanList:[],
         searchName:'',
@@ -218,29 +216,35 @@ export default {
       	'headimg09.jpg',
       	'headimg10.jpg'
         ],
+        write_flag: 0,
         head_index: 0,
         alterbox_show: 0,
         icon_show: 0,
         message_show:0,
         chat_title:'',
-        friend_show:0,
+        friend_show: 0,
         friend_info:'',
         send_text:'',
         //friendNickname_show:''
         //用于装载聊天信息
         chat_list:[],
-        
+        obj:'',
         }
     },
     created:function(){
         this.userName=this.$route.params.userName;
         console.log('欢迎'+this.userName);
     },
-    beforeMount:function(){
-        
-    },
     mounted: function(){
         var self = this;
+        //表情启动
+        this.obj=new Face({
+            el:document.querySelector('.face_icon'),
+            callBack:function (face) {
+                self.send_text+="〖"+face.title+"〗";
+                document.querySelector('.face-warp').style.display='none';
+            }
+        });
         // 获取用户头像
         axios.post(
             'https://afwt8c.toutiao15.com/get_headImg',
@@ -294,6 +298,7 @@ export default {
             self.messageList = data.result;
             //提取消息列表好友头像
             for(var i=0; i<self.messageList.length; i++){
+                self.messageList[i].message = self.obj.replaceFace(self.messageList[i].message);
                 if(self.messageList[i].user1==self.userName){
                     self.messageHead=self.messageList[i].user2;
                 }
@@ -328,6 +333,7 @@ export default {
                     this.chat_list = [];
                     for(var i = data.result.length - 1;i >= 0;i--)
                     {
+                        data.result[i].message = self.obj.replaceFace(data.result[i].message);
                         if(data.result[i].sender == 1){
                             this.chat_list.push({source: data.result[i].user1, des:data.result[i].user2, message:data.result[i].message});
                         }
@@ -340,7 +346,7 @@ export default {
                     console.log(JSON.stringify(error));
                     console.log(error.result);
                 }).finally(function() {
-                    console.log("获取聊天记录成功！");
+                    console.log("获取聊天记录成功！")
                 });
             }
             //console.log(self.messageList[0].createdAt);
@@ -365,7 +371,6 @@ export default {
             // 处理正常结果
             const data = res.data;
             self.friendList = data.result;
-            console.log(self.friendList);
             //提取消息列表好友头像
             for(var i=0; i<self.messageList.length; i++){
                 if(self.messageList[i].user1==self.userName){
@@ -374,6 +379,7 @@ export default {
                 else{
                     self.messageHead=self.messageList[i].user1;
                 }
+                console.log(self.messageHead);
                 for(var j=0; j<self.friendList.length;j++){
                     if(self.messageHead==self.friendList[j].friendName){
                         self.messageListHead.push(self.friendList[j].friendHead);
@@ -392,12 +398,8 @@ export default {
         socket.emit('user_info', {
             username: this.userName,
         });
-        //初始化chat_title后开始监听
-        socket.on(self.userName, function(msg){
-            console.log('socket.on');
-            console.log(self.userName, self.chat_title, msg.source);
-            if(self.chat_title == msg.source)
-                self.chat_list.push(msg);
+        socket.on(this.userName, function(msg){
+            self.chat_list.push(msg);
             axios.post(
                 'https://afwt8c.toutiao15.com/add_chat_record',
                 {
@@ -451,6 +453,7 @@ export default {
                     this.messageList = data.result;
                     //提取消息列表好友头像
                     for(var i=0; i<this.messageList.length; i++){
+                        this.messageList[i].message = this.obj.replaceFace(this.messageList[i].message);
                         if(this.messageList[i].user1==this.userName){
                             this.messageHead=this.messageList[i].user2;
                         }
@@ -485,6 +488,7 @@ export default {
                             this.chat_list = [];
                             for(var i = data.result.length - 1;i >= 0;i--)
                             {
+                                data.result[i].message = this.obj.replaceFace(data.result[i].message);
                                 if(data.result[i].sender == 1){
                                     this.chat_list.push({source: data.result[i].user1, des:data.result[i].user2, message:data.result[i].message});
                                 }
@@ -548,6 +552,25 @@ export default {
                 }).finally(function() {
                 console.log('请求好友列表成功');
                 });
+                // 请求好友信息
+                axios.post(
+                'https://afwt8c.toutiao15.com/get_friend',
+                { 
+                    userName: this.friendList[this.friend_show]['friendName']
+                }
+                ).then((res)=>{
+                    // 处理正常结果
+                    const data = res.data;
+                    this.friend_info = data.result;
+                    //console.log(data.result);
+                }).catch(function(error) {
+                    // 处理异常结果
+                    console.log(JSON.stringify(error));
+                    console.log(error.result);
+                }).finally(function() {
+                    console.log('请求好友信息成功');
+                    //console.log(self.friend_info);
+                });
               }
           },
         changeMessage(index){
@@ -571,6 +594,7 @@ export default {
                     this.chat_list = [];
                     for(var i = data.result.length - 1;i >= 0;i--)
                     {
+                        data.result[i].message = this.obj.replaceFace(data.result[i].message);
                         if(data.result[i].sender == 1){
                             this.chat_list.push({source: data.result[i].user1, des:data.result[i].user2, message:data.result[i].message});
                         }
@@ -601,6 +625,7 @@ export default {
             ).then((res)=>{
                 // 处理正常结果
                 const data = res.data;
+                console.log(data.result);
             }).catch(function(error) {
                 // 处理异常结果
                 console.log(JSON.stringify(error));
@@ -617,6 +642,7 @@ export default {
             ).then((res)=>{
                 // 处理正常结果
                 const data = res.data;
+                console.log(data.result);
             }).catch(function(error){
                 // 处理异常结果
                 console.log(JSON.stringify(error));
@@ -626,15 +652,14 @@ export default {
             });
             this.myHead = this.headimgArr[this.head_index];
         },
-        
         changeFriend(index){
+            /*var self = this;
             this.friend_show=index;
-            /*
             this.friend_info={
                 userName: this.friendList[this.friend_show].friendName,
                 note: this.friendList[this.friend_show].friendNickname
             }*/
-            //this.friendNickname_show=this.friendList[this.friend_show].friendNickname;
+            this.friend_show=index;
             console.log("friendList",this.friendList);
             // 请求好友信息
             axios.post(
@@ -657,6 +682,7 @@ export default {
             });
         },
         sendMessage(){
+            this.send_text = this.obj.replaceFace(this.send_text);
             var msg = {source:this.userName, des:this.chat_title, message : this.send_text};
             socket.emit('send message', msg);
             this.chat_list.push(msg);
@@ -695,15 +721,13 @@ export default {
             this.not_add=0;
         },
         //查看用户个人资料
-        showUserInfo(index)
-        {
+        showUserInfo(index){
             this.not_add=1;
             console.log(index);
             this.userInfo=this.userList[index];
         },
         //添加好友
-        addFriend()
-        {
+        addFriend(){
             axios.post(
                 'https://afwt8c.toutiao15.com/add_friend',
                 {
@@ -1035,6 +1059,14 @@ export default {
         margin-top: 4px;
         color: #999;
     }
+    .online_list .noUser{
+        margin-left: -40px;
+        margin: 1px;
+    }
+    .online_list .noUser p{
+        text-align: left;
+        color: gray;
+    }
     .panel_right .msg_box {
         width: 100%;
         height: 432px;
@@ -1140,10 +1172,32 @@ export default {
     .panel_right .msg_box .my_msg {
         float: right;
     }
-.panel_right .msg_box .my_msg .the_head {
+    .panel_right .msg_box .my_msg .the_head {
         float: right;
     }
-.msg_box .my_msg .msg_body {
+    .panel_right .friendBox{
+        text-align: left;
+        margin-left: 20%;
+        margin-top: 15%;
+        float:left;
+    }
+    .panel_right .friendImg{
+        margin-top: 15%;
+    }
+    .panel_right .friendInfo{
+        text-align: left;
+        margin-top:5%;
+    }
+    .panel_right .friendInfo .friendLine{
+        width:75%;
+        border:0;
+        background-color:#ff0000;
+        height:1px;
+    }
+    .panel_right .friendInfo .hehe{
+        margin-left: 20%;
+    }
+    .msg_box .my_msg .msg_body {
         float: right;
         margin-right: 10px;
         margin-left: 0;
@@ -1333,13 +1387,11 @@ export default {
     .send {
         width: 30%;
         float:right;
-        background-color: #4cdd4c;
-        border-radius: 4px;
+        background-color: #129611;
     }
     .receive {
         width: 30%;
         float:left;
-        background-color: rgb(196, 191, 191);
-        border-radius: 4px;
+        background-color: white;
     }
 </style>
