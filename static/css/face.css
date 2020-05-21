@@ -38,7 +38,7 @@
     height: 0;
     font-size: 0;
     padding: 10px;
-    background: url(../images/face.png) no-repeat;
+    background: url(../img/face.png) no-repeat;
 }
 .face.face0:after{
     background-position: -6px -6px;
