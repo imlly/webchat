@@ -54,6 +54,7 @@ export default {
       userName2:'',
       password2:'',
       current_head:0,
+      login_state:-1,   // 记录登录的请求状态
       headimgArr:[
       	'headimg01.jpg',
       	'headimg02.jpg',
@@ -85,26 +86,35 @@ export default {
   			this.current_head--;
   		}
   	},
-  	login(){
+  	async login(){
       // 调用 LarkCloud 函数
-      axios.post(
+      await axios.post(
           'https://afwt8c.toutiao15.com/login',
           { userName: this.userName,
             password: this.password,
           }
-      ).then(function(res) {
+      ).then((res)=>{
           // 处理正常结果
-          const data = res.data;
-          console.log(data.result);
+          const data = res.data;             
+          this.login_state = data.state;             
+          console.log("处理正常结果！");
+          if(data.state!=0){
+            alert(data.info)
+          }
+          else{
+            console.log("登录成功！");
+            var session = window.sessionStorage;      // 使用一个session对象保存登录状态
+            session.setItem('user', this.userName);   // 记录登录的用户
+            this.$router.push('/chat'); 
+          }           
       }).catch(function(error) {
           // 处理异常结果
+          console.log("处理异常结果！");
           console.log(JSON.stringify(error));
           console.log(error.result);
       }).finally(function() {
-          console.log('调用登录完成');
-      });
-      var userInfo = {userName: this.userName};
-      this.$router.push({ name: 'chat', params: userInfo});
+          console.log('调用登录完成！');
+      }); 
     },
     register(){
       // 调用 LarkCloud 函数
@@ -115,16 +125,17 @@ export default {
             nickname: this.nickname,
             headImg: this.headimgArr[this.current_head]
           }
-      ).then(function(res) {
+      ).then((res)=> {
           // 处理正常结果
           const data = res.data;
-          console.log(data.result);
+          alert(data.info);
+          console.log("data:", data);
       }).catch(function(error) {
           // 处理异常结果
           console.log(JSON.stringify(error));
           console.log(error.result);
       }).finally(function() {
-          console.log('调用注册完成');
+          console.log('调用注册完成！');
       });
     }
   }

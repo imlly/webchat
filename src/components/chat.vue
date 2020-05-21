@@ -24,6 +24,9 @@
                         <div class="confirm">
                             <button @click="confirm_btn();alterbox_show=0">Done</button>
                         </div>
+                        <div class="logout">
+                            <button @click="logout();alterbox_show=0">Logout</button>
+                        </div>
                     </div>
 
                     <!--菜单栏-->
@@ -287,8 +290,8 @@ export default {
         }
     },
     created:function(){
-        this.userName=this.$route.params.userName;
-        console.log('欢迎'+this.userName);
+        this.userName = window.sessionStorage.user;   // 从session中获取userName
+        console.log('欢迎, ' + this.userName);
     },
     mounted: function(){
         var self = this;
@@ -441,6 +444,15 @@ export default {
     beforeDestroy: function(){
     },
     methods:{
+        logout(){
+            // 用户登出，清除session
+            window.sessionStorage.removeItem('user');
+            console.log("用户登出！");
+            alert("已登出！");
+            
+            // 返回登录页
+            this.$router.push('/');         
+        },
         change_profile(lr){
   		    if(lr==1){
   			    this.head_index++;
@@ -1079,6 +1091,20 @@ export default {
     }
     .confirm>button:active{
         background: #3c3c3c;
+    }
+    .logout {
+        height: 60px;
+    }
+    .logout>button {
+        font-size: 20px;
+        color: #FFFFFF;
+        background: #ff0000;
+        border: 1px solid #ff0000;
+        cursor: pointer;
+        outline:none;
+    }
+    .logout>button:active{
+        background:#ff0000;
     }
     .icon_list {
         width: 35px;
