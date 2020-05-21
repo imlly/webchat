@@ -127,7 +127,8 @@
                 </div>
 
                 <div class="msg_box" id="msgbox">
-                    <div class="more_record">查看更多消息</div>
+                    <div class="more_record" @click="getMoreChat()" v-show="more_chat==1">查看更多消息</div>
+                    <div class="no_record" v-show="no_chat==1">没有更多消息了</div>
                     <div>
                         <div class="msg_body">
                             <ul id="message" style="padding-left: 0px;">
@@ -239,6 +240,11 @@ export default {
       	'headimg10.jpg'
         ],
         write_flag: 0,
+        // 获取更多信息相关
+        more_chat: 1,
+        chat_num: 1,
+        no_chat: 0,
+
         head_index: 0,
         alterbox_show: 0,
         icon_show: 0,
@@ -451,9 +457,12 @@ export default {
   		    }
   	    },
         changeIcon(index){
-              this.icon_show=index;
-              if(index==0)
-              {
+            this.icon_show=index;
+            this.more_chat = 1;
+            this.chat_num = 1;
+            this.no_chat = 0;
+            if(index==0)
+            {
                 // 请求最近消息列表
                 axios.post(
                     'https://afwt8c.toutiao15.com/get_message_list',
@@ -531,9 +540,9 @@ export default {
                 }).finally(function() {
                 console.log('请求最近消息列表成功');
                 });
-              }
-              else if(index==1)
-              {
+            }
+            else if(index==1)
+            {
                 // 请求好友列表
                 axios.post(
                     'https://afwt8c.toutiao15.com/get_friend_list',
@@ -588,13 +597,16 @@ export default {
                     //console.log(self.friend_info);
                 });
                 */
-              }
-          },
+            }
+        },
         changeMessage(index){
             //this.message_show=index;
             //this.chat_title=this.messageList[index].friendName;
             if(this.message_show != index){
                 this.message_show = index;
+                this.more_chat = 1;
+                this.chat_num = 1;
+                this.no_chat = 0;
                 this.chat_title=(this.messageList[index].user1 == this.userName?this.messageList[index].user2:this.messageList[index].user1);
                 console.log("changeMessage",this.chat_title);
                 //默认获取最近的5条聊天记录
@@ -627,6 +639,43 @@ export default {
                     console.log("获取聊天记录成功！")
                 });
             }  
+        },
+        // 获取更多信息
+        getMoreChat(){
+            this.chat_num += 1;
+            var number = 5 * this.chat_num;
+            axios.post(
+                'https://afwt8c.toutiao15.com/get_chat_record',
+                {
+                    userName:this.userName,
+                    friendName:this.chat_title,
+                    num: number
+                }
+            ).then((res)=>{
+                //处理正常结果
+                const data = res.data;
+                this.chat_list = [];
+                if(data.result.length < number){
+                    this.more_chat = 0;
+                    this.no_chat = 1;
+                }
+                for(var i = data.result.length - 1;i >= 0;i--)
+                {
+                    data.result[i].message = this.obj.replaceFace(data.result[i].message);
+                    if(data.result[i].sender == 1){
+                        this.chat_list.push({source: data.result[i].user1, des:data.result[i].user2, message:data.result[i].message});
+                    }
+                    else{
+                        this.chat_list.push({source: data.result[i].user2, des:data.result[i].user1, message:data.result[i].message});
+                    }
+                };
+            }).catch(function(error){
+                // 处理异常结果
+                console.log(JSON.stringify(error));
+                console.log(error.result);
+            }).finally(function(){
+                console.log("获取更多聊天记录成功！")
+            });
         },
         // 修改头像昵称
         confirm_btn(){
@@ -795,21 +844,20 @@ export default {
             })
         },
         // 点击发消息跳转页面
-        jumpMessage()
-        {
-            this.icon_show = 0;
-            //console.log(this.friendList[this.friend_show]['friendName']);
-            for(let i = 0;i < this.messageList.length;i++)
-            {
-                if(this.userName==this.messageList[i].user1) var tempName = this.messageList[i].user2;
-                else var tempName = this.messageList[i].user1;
-                if(tempName==this.friendList[this.friend_show]['friendName']){
-                    console.log(i);
-                    this.changeMessage(i);
-                    break;
-                }
-            }
-        },
+        jumpMessage(){
+            this.icon_show = 0;
+            for(let i = 0;i < this.messageList.length;i++)
+            {
+                if(this.userName==this.messageList[i].user1) var tempName = this.messageList[i].user2;
+                else var tempName = this.messageList[i].user1;
+                if(tempName==this.friendList[this.friend_show]['friendName'])
+                {
+                    console.log(i);
+                    this.changeMessage(i);
+                    break;
+                }
+            }
+        },
         //点击搜索结果中的好友跳转页面
         jumpMessage_Search(index)
         {
@@ -1309,6 +1357,12 @@ export default {
         color: #2c90ff;
         margin-top: 6px;
         cursor: pointer;
+    }
+    .no_record {
+        text-align: center;
+        font-size: 12px;
+        color: #7e7e7f;
+        margin-top: 6px;
     }
     .left_bar .more_box {
         width: 134px;
