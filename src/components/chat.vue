@@ -6,7 +6,7 @@
 
                     <!--头像-->
                     <div class="current_head" @click="setbox2()">
-                        <img :src="'../../static/img/'+myHead" style="width:35px; height:35px;"/>
+                        <!--<img :src="myHead" style="width:35px; height:35px;"/>-->
                     </div>
 
                     <!--设置用户头像和昵称-->
@@ -212,9 +212,16 @@
             </div>
 
             <div class="configbox" v-show="configbox_show" style="text-align:left;">
+                
                 <p style="margin-left:4%;">设置
                     <span @click="configbox_show=0" style="margin-left:80%; font-size:30px;">×</span>
                 </p>
+                <!--
+                <img id="base64Img" style="width:100px;"/>
+                <div class="fileInput">
+                    <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image/jpeg, image/png, image/jpg"/>
+                </div>
+                <img :src=myHead style="width:80px"/>-->
             </div>
         </div>
     </div>
@@ -224,6 +231,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
 <script>
+var qs = require("qs");
 export default {
     name: 'chat',
     data () {
@@ -287,6 +295,8 @@ export default {
         //用于装载聊天信息
         chat_list:[],
         obj:'',
+        // 上传头像
+        imageUrl: "",
         }
     },
     created:function(){
@@ -313,6 +323,7 @@ export default {
             // 处理正常结果
             const data = res.data;
             self.myHead = data.result;
+            console.log(self.myHead);
             for(var i=0;i < 10;i++){
                 if(self.myHead==self.headimgArr[i]){
                     self.head_index = i;
@@ -905,6 +916,38 @@ export default {
             this.alterbox_show=0;
             this.setbox_show=0;
         },
+        // 上传图片
+        /*
+        updataImg(){
+            var self = this
+            var file = document.querySelector('input[type=file]').files[0];
+            console.log("base64",file)
+            var reader = new FileReader();
+            reader.onload = function () {
+                $("#base64Img").attr("src",reader.result);
+                self.imageUrl = reader.result;
+                console.log(self.imageUrl);
+                // that.updataImg()
+                //上传到数据库
+                axios.post(
+                    'https://afwt8c.toutiao15.com/set_headImg',
+                    {
+                        userName: this.userName,
+                        headImg: reader.result
+                    }
+                ).then((res)=>{
+                    const data = res.data;
+                }).catch(function(error){
+                    console.log(JSON.stringify(error));
+                    console.log(error.result);
+                }).finally(function() {
+                    console.log('修改头像成功');
+                });
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        },*/
     }
 }
 </script>
@@ -913,6 +956,29 @@ export default {
 <style scoped>
     ul{
         list-style: none;
+    }
+     .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
     }
     .chat_box {
         width: 900px;
