@@ -365,6 +365,7 @@ export default {
             //console.log(data.result);
             //console.log(data.result.length);
             self.messageList = data.result;
+            // console.log(moment(data.result[0].createdAt).utcOffset(480).format('YYYY-MM-DD HH:mm:ss'));
             //提取消息列表好友头像
             for(var i=0; i<self.messageList.length; i++){
                 self.messageList[i].message = self.obj.replaceFace(self.messageList[i].message);
@@ -542,7 +543,7 @@ export default {
                     console.log(JSON.stringify(error));
                     console.log(error.result);
                 }).finally(function() {
-                console.log('请求最近消息列表成功');
+                    console.log('请求最近消息列表成功');
                 });
             }
             else if(index==1)
