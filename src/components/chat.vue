@@ -11,18 +11,17 @@
 
                     <!--设置用户头像和昵称-->
                     <div class="alter_box" v-show="alterbox_show">
-                        <div class="choose_head" @click="alterbox_show=1">
-                            <div class="headimg">
-                                <img :src="require('../../static/img/'+headimgArr[head_index])" style="width:70px;"/>
-                            </div>
-                            <div class="to_left to" @click="change_profile(-1)">〈</div>
-                            <div class="to_right to" @click="change_profile(1)">〉</div>
+                        
+                        <div style="float:left;">
+                            <p>{{nickname}}</p>
+                            <p><span>用户名:</span>{{userName}}</p>
                         </div>
-                        <div class="nick" @click="alterbox_show=1">
-                            <input v-model="newNick" type="text" :placeholder="nickname"/>
+                        <div>
+                            <img :src=myHead style="width:80px"/>
                         </div>
-                        <div class="confirm">
-                            <button @click="confirm_btn();alterbox_show=0">Done</button>
+                        <div>
+                            <p class="hehe"><span>地区：</span>{{region}}</p>
+                            <p class="hehe"><span>签名：</span>{{sign}}</p>
                         </div>
                         
                     </div>
@@ -1077,27 +1076,16 @@ export default {
         margin: 20px auto 21px;
         cursor: pointer;
     }
+
     .left_bar .alter_box {
-        width: 250px;
+        width: 300px;
 		height: 230px;
-		background: #323232;
+		background: white;
 		position: absolute;
 		z-index: 1000;
-		left: 59px;
-		top: 14px;
+		left: 45px;
+		top: 40px;
     }
-    .left_bar .alter_box>div {
-		width: 100%;
-		color: #8c8c8c;
-		font-size: 14px;
-		line-height: 46px;
-		padding-left: 12px;
-		box-sizing: border-box;
-        cursor:default;
-	}
-    .left_bar .alter_box>div:hover {
-		background: #3c3c3c;
-	}
     .choose_head {
         width: 100%;
 		height: 120px;
