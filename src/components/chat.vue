@@ -62,7 +62,7 @@
                         <li style="margin-left:-40px;" @click="changeMessage(index)" v-for="(message,index) in messageList" v-bind:key="index" :class="index==message_show?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src=message.friendHead style="width:50px;margin-top:-5px;"/>
+                                    <img :src=message.friendHead style="width:50px;height:50px;margin-top:-5px;"/>
                                     <!--<span class="fubiao"></span>-->
                                 </div>
                                 <div class="user_info">
@@ -81,7 +81,7 @@
                         <li style="margin-left: -40px;" @click="changeFriend(-2)" :class="friend_show==-2?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src="'../../static/img/'+'addIcon.png'" style="width:50px;margin-top:-5px;"/>
+                                    <img :src="'../../static/img/'+'addIcon.png'" style="width:50px;height:50px;margin-top:-5px;"/>
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">新的朋友</div>
@@ -92,7 +92,7 @@
                         <li style="margin-left: -40px;" @click="changeFriend(index)" v-for="(friend,index) in friendList" v-bind:key="index" :class="index==friend_show?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src=friend.friendHead style="width:50px;margin-top:-5px;"/>
+                                    <img :src=friend.friendHead style="width:50px;height:50px;margin-top:-5px;"/>
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{friend.friendNickname}}</div>
@@ -110,7 +110,7 @@
                         <li style="margin-left: -40px;" @click="showUserInfo(index)" v-for="(user,index) in userList" v-bind:key="'user' + index">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src=user.headImg style="width:50px;margin-top:-5px;"/>
+                                    <img :src=user.headImg style="width:50px;height:50px;margin-top:-5px;"/>
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{user.nickname}}</div>
@@ -124,7 +124,7 @@
                         </div>
                         <li style="margin-left: -40px;" @click="jumpMessage_Search(index)" v-for="(linkman,index) in linkmanList" v-bind:key="'linkman' + index">
                             <div class="user_head">
-                                <img :src=linkman.headImg style="width:50px;margin-top:-5px;"/>
+                                <img :src=linkman.headImg style="width:50px;height:50px;margin-top:-5px;"/>
                             </div>
                             <div class="user_info">
                                 <div class="user_name">{{linkman.nickname}}</div>
