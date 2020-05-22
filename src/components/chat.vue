@@ -24,9 +24,7 @@
                         <div class="confirm">
                             <button @click="confirm_btn();alterbox_show=0">Done</button>
                         </div>
-                        <div class="logout">
-                            <button @click="logout();alterbox_show=0">Logout</button>
-                        </div>
+                        
                     </div>
 
                     <!--菜单栏-->
@@ -42,8 +40,8 @@
                         <span></span>
                     </div>
                     <div style="text-align: left;" class="more_box" v-show="setbox_show" @click="setbox_show=0">
-  						<div>意见反馈</div>
-                        <div @click="configbox_show=1">设置</div>
+  						<div class="logout" @click="logout();alterbox_show=0">退出登录</div>
+                        <div class="setting" @click="configbox_show=1">设置</div>
   					</div>
                     
                 </div>
@@ -215,14 +213,7 @@
                 <p style="margin-left:4%;">设置
                     <span @click="configbox_show=0" style="margin-left:80%; font-size:30px;">×</span>
                 </p>
-                <!--
-                <img id="base64Img" style="width:100px;"/>
-                <div class="fileInput">
-                    <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image/jpeg, image/png, image/jpg"/>
-                </div>
-                <img :src=myHead style="width:80px"/>-->
             </div>
-
         </div>
     </div>
 </template>
@@ -302,6 +293,14 @@ export default {
     },
     mounted: function(){
         var self = this;
+        //表情启动
+        this.obj=new Face({
+            el:document.querySelector('.face_icon'),
+            callBack:function (face) {
+                self.send_text+="〖"+face.title+"〗";
+                document.querySelector('.face-warp').style.display='none';
+            }
+        });
         // 获取用户头像
         axios.post(
             'https://afwt8c.toutiao15.com/get_headImg',
@@ -904,38 +903,6 @@ export default {
             this.alterbox_show=0;
             this.setbox_show=0;
         },
-        // 上传图片
-        updataImg(){
-            var self = this
-            var file = document.querySelector('input[type=file]').files[0];
-            console.log("base64",file)
-            var reader = new FileReader();
-            reader.onload = function () {
-                $("#base64Img").attr("src",reader.result);
-                self.imageUrl = reader.result;
-                console.log(self.imageUrl);
-                // that.updataImg()
-                //上传到数据库
-                /*
-                axios.post(
-                    'https://afwt8c.toutiao15.com/set_headImg',
-                    {
-                        userName: this.userName,
-                        headImg: reader.result
-                    }
-                ).then((res)=>{
-                    const data = res.data;
-                }).catch(function(error){
-                    console.log(JSON.stringify(error));
-                    console.log(error.result);
-                }).finally(function() {
-                    console.log('修改头像成功');
-                });*/
-            }
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        },
     }
 }
 </script>
@@ -1123,19 +1090,17 @@ export default {
     .confirm>button:active{
         background: #3c3c3c;
     }
-    .logout {
-        height: 60px;
-    }
-    .logout>button {
+    .logout{
         font-size: 20px;
-        color: #FFFFFF;
-        background: #ff0000;
-        border: 1px solid #ff0000;
+        color: #ff0000;
         cursor: pointer;
         outline:none;
     }
-    .logout>button:active{
-        background:#ff0000;
+    .setting{
+        font-size: 20px;
+        color: #8c8c8c;
+        cursor: pointer;
+        outline:none;
     }
     .icon_list {
         width: 35px;
@@ -1468,7 +1433,7 @@ export default {
     .left_bar .more_box>div {
         width: 100%;
         height: 46px;
-        color: #8c8c8c;
+        
         font-size: 14px;
         line-height: 46px;
         padding-left: 12px;
