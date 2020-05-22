@@ -295,14 +295,6 @@ export default {
     },
     mounted: function(){
         var self = this;
-        //表情启动
-        this.obj=new Face({
-            el:document.querySelector('.face_icon'),
-            callBack:function (face) {
-                self.send_text+="〖"+face.title+"〗";
-                document.querySelector('.face-warp').style.display='none';
-            }
-        });
         // 获取用户头像
         axios.post(
             'https://afwt8c.toutiao15.com/get_headImg',
