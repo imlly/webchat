@@ -102,7 +102,7 @@
                     </ul>
 
                     <ul class="online_list" v-show="icon_show==3">
-                        <div class="noUser">
+                        <div class="noUser" v-show="userList.length != 0">
                             <p>用户:</p>
                             <div v-show="userList.length == 0">提示：用户不存在</div>
                         </div>
@@ -117,17 +117,19 @@
                                 </div>
                             </div>
                         </li>
-                        <div class="noUser">
+                        <div class="noUser" v-show="linkmanList.length != 0">
                             <p>联系人:</p>
                             <div v-show="linkmanList.length == 0">提示：联系人不存在</div>
                         </div>
                         <li style="margin-left: -40px;" @click="jumpMessage_Search(index)" v-for="(linkman,index) in linkmanList" v-bind:key="'linkman' + index">
-                            <div class="user_head">
-                                <img :src=linkman.headImg style="width:50px;margin-top:-5px;"/>
-                            </div>
-                            <div class="user_info">
-                                <div class="user_name">{{linkman.nickname}}</div>
-                                <div class="user_msg"></div>
+                            <div class="info">
+                                <div class="user_head">
+                                    <img :src=linkman.headImg style="width:50px;margin-top:-5px;"/>
+                                </div>
+                                <div class="user_info">
+                                    <div class="user_name">{{linkman.nickname}}</div>
+                                    <div class="user_msg"></div>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -171,7 +173,25 @@
             
             <!--显示好友信息-->
             <div class="panel_right" v-show="icon_show==1 && friend_show==-2">
-                <p>新的朋友在哪里？</p>
+                <h1 class="newfriend_titile">新的朋友</h1>
+                <hr/>
+                <ul>
+                    <li>
+                        <div style="height:80px">
+                            <div class="newfriend_head">
+                                
+                            </div>
+                            <div class="newfriend_info">
+                                <p style="margin-top:5px">username</p>
+                                <p style="margin-top:5px">nickname</p>
+                            </div>
+                            <div class="newfriend_button">
+                                <button @click="accept_request()" id="accept_button">接受</button>
+                            </div>
+                        </div>
+                        <hr style="width:80%">
+                    </li>
+                </ul>
             </div>
             <div class="panel_right" v-show="icon_show==1 && friend_show==-1">
                 <img :src="'../../static/img/'+'friendListBackground.png'" style="width:100%"/>
@@ -932,6 +952,11 @@ export default {
                 }
             }
         },
+        //接受好友请求
+        accept_request(){
+            let button = $("#accept_button");
+            button.attr("disabled", true);
+        },
         // 显示设置框
         setbox(){
             if(this.setbox_show==0) this.setbox_show=1;
@@ -1442,6 +1467,31 @@ export default {
     }
     .panel_right .msg_box .my_msg .the_head {
         float: right;
+    }
+    .panel_right .newfriend_titile{
+        text-align: left;
+        font-size: 20px;
+        font-weight: 500;
+        margin-left: 8%;
+        margin-top: 22px;
+        color: black;
+    }
+    .panel_right .newfriend_info{
+        float: left;
+        margin-top: 0px;
+        margin-left: 10%;
+    }
+    .panel_right .newfriend_head{
+        float: left;
+        width: 60px;
+        height: 60px;
+        margin-left: 10%;
+        background-color: brown;
+    }
+    .panel_right .newfriend_button{
+        float: right;
+        margin-right: 20%;
+        margin-top: 10px;
     }
     .panel_right .friendBox{
         text-align: left;
