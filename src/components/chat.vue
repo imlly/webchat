@@ -234,7 +234,6 @@ export default {
         myHead:'',
         nickname:'',
         newNick:'',
-        messageList: [],
         // 搜索相关
         userList:[],
         linkmanList:[],
@@ -290,10 +289,22 @@ export default {
         }
     },
     created:function(){
-        this.userName = window.sessionStorage.user;   // 从session中获取userName
-        console.log('欢迎, ' + this.userName);
+        
     },
     mounted: function(){
+        const params = this.$route.params;
+        if(params.userName){
+            this.userName = params.userName;
+            console.log('欢迎, ' + this.userName);
+        }
+        else{
+            this.goBack();
+        }
+        // 历史返回重新登陆
+        if (window.history && window.history.pushState) {
+            history.pushState(null, null, document.URL)
+            window.addEventListener('popstate', this.goBack, false)
+        }
         var self = this;
         //表情启动
         this.obj=new Face({
@@ -906,37 +917,41 @@ export default {
             this.setbox_show=0;
         },
         // 上传图片
-        updataImg(){
-            var self = this
-            var file = document.querySelector('input[type=file]').files[0];
-            console.log("base64",file)
-            var reader = new FileReader();
-            reader.onload = function () {
-                $("#base64Img").attr("src",reader.result);
-                self.imageUrl = reader.result;
-                // console.log(self.imageUrl);
-                //刷新头像
+        updataImg(){
+            var self = this;
+            var file = document.querySelector('input[type=file]').files[0];
+            console.log("base64",file);
+            var reader = new FileReader();
+            reader.onload = function () {
+                $("#base64Img").attr("src",reader.result);
+                self.imageUrl = reader.result;
+                // console.log(self.imageUrl);
+                //刷新头像
                 self.myHead = reader.result;
-                //上传到数据库
-                axios.post(
-                    'https://afwt8c.toutiao15.com/set_headImg',
-                    {
-                        userName: this.userName,
-                        headImg: reader.result
-                    }
-                ).then((res)=>{
-                    const data = res.data;
-                }).catch(function(error){
-                    console.log(JSON.stringify(error));
-                    console.log(error.result);
-                }).finally(function() {
-                    console.log('修改头像成功');
-                });
-            }
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        },
+                //上传到数据库
+                axios.post(
+                    'https://afwt8c.toutiao15.com/set_headImg',
+                    {
+                        userName: this.userName,
+                        headImg: reader.result
+                    }
+                ).then((res)=>{
+                    const data = res.data;
+                }).catch(function(error){
+                    console.log(JSON.stringify(error));
+                    console.log(error.result);
+                }).finally(function(){
+                    console.log('修改头像成功');
+                });
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        },
+        goBack () {
+            let href = window.location.href
+            window.location.href = href.split('#')[0]
+        }
     }
 }
 </script>

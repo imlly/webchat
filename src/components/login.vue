@@ -103,9 +103,10 @@ export default {
           }
           else{
             console.log("登录成功！");
-            var session = window.sessionStorage;      // 使用一个session对象保存登录状态
-            session.setItem('user', this.userName);   // 记录登录的用户
-            this.$router.push('/chat'); 
+            var userInfo = {'userName': this.userName};
+            //var session = window.sessionStorage;      // 使用一个session对象保存登录状态
+            //session.setItem('user', this.userName);   // 记录登录的用户
+            this.$router.push({name: 'chat', params: userInfo}); 
           }           
       }).catch(function(error) {
           // 处理异常结果
