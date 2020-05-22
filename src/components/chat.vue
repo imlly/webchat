@@ -91,7 +91,7 @@
                         <li style="margin-left: -40px;" @click="changeFriend(index)" v-for="(friend,index) in friendList" v-bind:key="index" :class="index==friend_show?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src=friend.friendHead style="width:50px;margin-top:-5px;"/>
+                                    <img :src=friend.friendHead style="width:50px;height:50px;margin-top:-5px;"/>
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{friend.friendNickname}}</div>
@@ -109,7 +109,7 @@
                         <li style="margin-left: -40px;" @click="showUserInfo(index)" v-for="(user,index) in userList" v-bind:key="'user' + index">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src=user.headImg style="width:50px;margin-top:-5px;"/>
+                                    <img :src=user.headImg style="width:50px;height:50px;margin-top:-5px;"/>
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{user.nickname}}</div>
@@ -124,7 +124,7 @@
                         <li style="margin-left: -40px;" @click="jumpMessage_Search(index)" v-for="(linkman,index) in linkmanList" v-bind:key="'linkman' + index">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src=linkman.headImg style="width:50px;margin-top:-5px;"/>
+                                    <img :src=linkman.headImg style="width:50px;height:50px;margin-top:-5px;"/>
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{linkman.nickname}}</div>
