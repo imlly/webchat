@@ -24,9 +24,7 @@
                         <div class="confirm">
                             <button @click="confirm_btn();alterbox_show=0">Done</button>
                         </div>
-                        <div class="logout">
-                            <button @click="logout();alterbox_show=0">Logout</button>
-                        </div>
+                        
                     </div>
 
                     <!--菜单栏-->
@@ -42,8 +40,8 @@
                         <span></span>
                     </div>
                     <div style="text-align: left;" class="more_box" v-show="setbox_show" @click="setbox_show=0">
-  						<div>意见反馈</div>
-                        <div @click="configbox_show=1">设置</div>
+  						<div class="logout" @click="logout();alterbox_show=0">退出登录</div>
+                        <div class="setting" @click="configbox_show=1">设置</div>
   					</div>
                     
                 </div>
@@ -1092,19 +1090,17 @@ export default {
     .confirm>button:active{
         background: #3c3c3c;
     }
-    .logout {
-        height: 60px;
-    }
-    .logout>button {
+    .logout{
         font-size: 20px;
-        color: #FFFFFF;
-        background: #ff0000;
-        border: 1px solid #ff0000;
+        color: #ff0000;
         cursor: pointer;
         outline:none;
     }
-    .logout>button:active{
-        background:#ff0000;
+    .setting{
+        font-size: 20px;
+        color: #8c8c8c;
+        cursor: pointer;
+        outline:none;
     }
     .icon_list {
         width: 35px;
@@ -1437,7 +1433,7 @@ export default {
     .left_bar .more_box>div {
         width: 100%;
         height: 46px;
-        color: #8c8c8c;
+        
         font-size: 14px;
         line-height: 46px;
         padding-left: 12px;
