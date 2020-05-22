@@ -1048,6 +1048,8 @@ export default {
         },
         //接受好友请求
         accept_request(index){
+            var el = event.currentTarget;
+            el.setAttribute("style", "display:none;");
             axios.post(
                 'https://afwt8c.toutiao15.com/add_friend',
                 {
