@@ -6,7 +6,7 @@
 
                     <!--头像-->
                     <div class="current_head" @click="setbox2()">
-                        <img :src="'../../static/img/'+myHead" style="width:35px; height:35px;"/>
+                        <img :src=myHead style="width:35px; height:35px;"/>
                     </div>
 
                     <!--设置用户头像和昵称-->
@@ -62,7 +62,7 @@
                         <li style="margin-left:-40px;" @click="changeMessage(index)" v-for="(message,index) in messageList" v-bind:key="index" :class="index==message_show?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src="'../../static/img/'+message['friendHead']" style="width:50px;margin-top:-5px;"/>
+                                    <img :src=message.friendHead style="width:50px;margin-top:-5px;"/>
                                     <!--<span class="fubiao"></span>-->
                                 </div>
                                 <div class="user_info">
@@ -92,7 +92,7 @@
                         <li style="margin-left: -40px;" @click="changeFriend(index)" v-for="(friend,index) in friendList" v-bind:key="index" :class="index==friend_show?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src="'../../static/img/'+friend.friendHead" style="width:50px;margin-top:-5px;"/>
+                                    <img :src=friend.friendHead style="width:50px;margin-top:-5px;"/>
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{friend.friendNickname}}</div>
@@ -110,7 +110,7 @@
                         <li style="margin-left: -40px;" @click="showUserInfo(index)" v-for="(user,index) in userList" v-bind:key="'user' + index">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src="'../../static/img/'+user.headImg" style="width:50px;margin-top:-5px;"/>
+                                    <img :src=user.headImg style="width:50px;margin-top:-5px;"/>
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{user.nickname}}</div>
@@ -124,7 +124,7 @@
                         </div>
                         <li style="margin-left: -40px;" @click="jumpMessage_Search(index)" v-for="(linkman,index) in linkmanList" v-bind:key="'linkman' + index">
                             <div class="user_head">
-                                <img :src="'../../static/img/'+linkman.headImg" style="width:50px;margin-top:-5px;"/>
+                                <img :src=linkman.headImg style="width:50px;margin-top:-5px;"/>
                             </div>
                             <div class="user_info">
                                 <div class="user_name">{{linkman.nickname}}</div>
@@ -183,7 +183,7 @@
                     <p>{{friend_info.sign}}</p>
                 </div>
                 <div class="friendImg">
-                    <img :src="'../../static/img/'+friend_info.headImg" style="width:80px"/>
+                    <img :src=friend_info.headImg style="width:80px"/>
                 </div>
                 <div class="friendInfo">
                     <div>
@@ -213,12 +213,10 @@
                 <p style="margin-left:4%;">设置
                     <span @click="configbox_show=0" style="margin-left:80%; font-size:30px;">×</span>
                 </p>
-                <!--
-                <img id="base64Img" style="width:100px;"/>
+                <img id="base64Img" style="width:100px;" src="'../../static/img/'+'addImg.png'"/>
                 <div class="fileInput">
-                    <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image/jpeg, image/png, image/jpg"/>
+                    <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image"/>
                 </div>
-                <img :src=myHead style="width:80px"/>-->
             </div>
         </div>
     </div>
@@ -910,7 +908,6 @@ export default {
             this.setbox_show=0;
         },
         // 上传图片
-        /*
         updataImg(){
             var self = this
             var file = document.querySelector('input[type=file]').files[0];
@@ -940,7 +937,7 @@ export default {
             if (file) {
                 reader.readAsDataURL(file);
             }
-        },*/
+        },
     }
 }
 </script>
