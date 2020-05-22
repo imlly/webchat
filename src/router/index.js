@@ -21,7 +21,7 @@ export default new Router({
       component: chat,
       meta:{
         title:'Chat',
-        needLogin:true,   // 需要登录才能进入
+        //needLogin:true,   // 需要登录才能进入
       }
     }
   ]
