@@ -1121,7 +1121,7 @@ export default {
                 axios.post(
                     'https://afwt8c.toutiao15.com/set_headImg',
                     {
-                        userName: this.userName,
+                        userName: self.userName,
                         headImg: reader.result
                     }
                 ).then((res)=>{
