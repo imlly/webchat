@@ -99,6 +99,7 @@
                                 </div>
                             </div>
                         </li>
+                        <button @click="testid()">测试buttonid</button>
                     </ul>
 
                     <ul class="online_list" v-show="icon_show==3">
@@ -206,12 +207,13 @@
                 </div>
                 <div class="friendInfo">
                     <div>
-                        <ul v-for="(friend,index) in friendList" v-bind:key="index">
+                        <ul v-for="(friend,index) in friendList" v-bind:key="index" >
                             <li v-if="index==friend_show">
                                 <hr class="friendLine"><br>
                                 <p class="hehe"><span>备注：</span>{{friend.friendNickname}}</p>
                                 <p class="hehe"><span>地区：</span>{{friend_info.region}}</p>
                                 <p class="hehe"><span>用户名：</span>{{friend_info.userName}}</p>
+                                <button @click="testButton()" :id=index>test</button>
                                 <br><hr class="friendLine">
                             </li>
                         </ul>
@@ -1117,11 +1119,12 @@ export default {
                 // console.log(self.imageUrl);
                 //刷新头像
                 self.myHead = reader.result;
+                console.log(self.userName);
                 //上传到数据库
                 axios.post(
                     'https://afwt8c.toutiao15.com/set_headImg',
                     {
-                        userName: this.userName,
+                        userName: self.userName,
                         headImg: reader.result
                     }
                 ).then((res)=>{
@@ -1144,24 +1147,35 @@ export default {
         // 修改用户信息
         changeInformation(){
             axios.post(
-          'https://afwt8c.toutiao15.com/set_user',
-          { 
-            userName: this.userName,  
-            nickname: this.nickname,
-            sign: this.sign,
-            region: this.region
-          }
-      ).then((res)=> {
-          // 处理正常结果
-          const data = res.data;
-          console.log("data:", data);
-      }).catch(function(error) {
-          // 处理异常结果
-          console.log(JSON.stringify(error));
-          console.log(error.result);
-      }).finally(function() {
-          console.log('修改完成！');
-      });
+                'https://afwt8c.toutiao15.com/set_user',
+                { 
+                    userName: this.userName,  
+                    nickname: this.nickname,
+                    sign: this.sign,
+                    region: this.region
+                }
+            ).then((res)=> {
+                // 处理正常结果
+                const data = res.data;
+                console.log("data:", data);
+            }).catch(function(error) {
+                // 处理异常结果
+                console.log(JSON.stringify(error));
+                console.log(error.result);
+            }).finally(function() {
+                console.log('修改完成！');
+            });
+        },
+        // test
+        testButton(){
+            var el = event.currentTarget;
+            el.setAttribute("style", "display: none;");
+            console.log(el);
+        },
+        // testid
+        testid(){
+            var node = document.getElementById('1');
+            console.log(node);
         }
     }
 }
