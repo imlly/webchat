@@ -11,18 +11,17 @@
 
                     <!--设置用户头像和昵称-->
                     <div class="alter_box" v-show="alterbox_show">
-                        <div class="choose_head" @click="alterbox_show=1">
-                            <div class="headimg">
-                                <img :src="require('../../static/img/'+headimgArr[head_index])" style="width:70px;"/>
-                            </div>
-                            <div class="to_left to" @click="change_profile(-1)">〈</div>
-                            <div class="to_right to" @click="change_profile(1)">〉</div>
+                        
+                        <div style="float:left;">
+                            <p>{{nickname}}</p>
+                            <p><span>用户名:</span>{{userName}}</p>
                         </div>
-                        <div class="nick" @click="alterbox_show=1">
-                            <input v-model="newNick" type="text" :placeholder="nickname"/>
+                        <div>
+                            <img :src=myHead style="width:80px"/>
                         </div>
-                        <div class="confirm">
-                            <button @click="confirm_btn();alterbox_show=0">Done</button>
+                        <div>
+                            <p class="hehe"><span>地区：</span>{{region}}</p>
+                            <p class="hehe"><span>签名：</span>{{sign}}</p>
                         </div>
                         
                     </div>
@@ -62,7 +61,7 @@
                         <li style="margin-left:-40px;" @click="changeMessage(index)" v-for="(message,index) in messageList" v-bind:key="index" :class="index==message_show?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src=message.friendHead style="width:50px;margin-top:-5px;"/>
+                                    <img :src=message.friendHead style="width:50px; height:50px; margin-top:-5px;"/>
                                     <!--<span class="fubiao"></span>-->
                                 </div>
                                 <div class="user_info">
@@ -81,7 +80,7 @@
                         <li style="margin-left: -40px;" @click="changeFriend(-2)" :class="friend_show==-2?'clicked':'unclicked'">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src="'../../static/img/'+'addIcon.png'" style="width:50px;margin-top:-5px;"/>
+                                    <img :src="'../../static/img/'+'addIcon.png'" style="width:50px; height:50px; margin-top:-5px;"/>
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">新的朋友</div>
@@ -103,7 +102,7 @@
                     </ul>
 
                     <ul class="online_list" v-show="icon_show==3">
-                        <div class="noUser" v-show="userList.length != 0">
+                        <div class="noUser">
                             <p>用户:</p>
                             <div v-show="userList.length == 0">提示：用户不存在</div>
                         </div>
@@ -118,19 +117,17 @@
                                 </div>
                             </div>
                         </li>
-                        <div class="noUser" v-show="linkmanList.length != 0">
+                        <div class="noUser">
                             <p>联系人:</p>
                             <div v-show="linkmanList.length == 0">提示：联系人不存在</div>
                         </div>
                         <li style="margin-left: -40px;" @click="jumpMessage_Search(index)" v-for="(linkman,index) in linkmanList" v-bind:key="'linkman' + index">
-                            <div class="info">
-                                <div class="user_head">
-                                    <img :src=linkman.headImg style="width:50px;margin-top:-5px;"/>
-                                </div>
-                                <div class="user_info">
-                                    <div class="user_name">{{linkman.nickname}}</div>
-                                    <div class="user_msg"></div>
-                                </div>
+                            <div class="user_head">
+                                <img :src=linkman.headImg style="width:50px;margin-top:-5px;"/>
+                            </div>
+                            <div class="user_info">
+                                <div class="user_name">{{linkman.nickname}}</div>
+                                <div class="user_msg"></div>
                             </div>
                         </li>
                     </ul>
@@ -174,25 +171,7 @@
             
             <!--显示好友信息-->
             <div class="panel_right" v-show="icon_show==1 && friend_show==-2">
-                <h1 class="newfriend_titile">新的朋友</h1>
-                <hr/>
-                <ul>
-                    <li>
-                        <div style="height:80px">
-                            <div class="newfriend_head">
-                                
-                            </div>
-                            <div class="newfriend_info">
-                                <p style="margin-top:5px">username</p>
-                                <p style="margin-top:5px">nickname</p>
-                            </div>
-                            <div class="newfriend_button">
-                                <button @click="accept_request()" id="accept_button">接受</button>
-                            </div>
-                        </div>
-                        <hr style="width:80%">
-                    </li>
-                </ul>
+                <p>新的朋友在哪里？</p>
             </div>
             <div class="panel_right" v-show="icon_show==1 && friend_show==-1">
                 <img :src="'../../static/img/'+'friendListBackground.png'" style="width:100%"/>
@@ -229,12 +208,23 @@
                 </div>
             </div>
 
-            <div class="configbox" v-show="configbox_show" style="text-align:left;">
+            <div class="configbox" v-show="configbox_show" style="text-align:left; overflow:auto;">
                 <p style="margin-left:4%;">设置
                     <span @click="configbox_show=0" style="margin-left:80%; font-size:30px;">×</span>
                 </p>
                 <img id="base64Img" style="width:100px;" src="'../../static/img/'+'addImg.png'"/>
                 <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image"/>
+                <div style="height: 30px;"></div>
+                <span>昵称：</span>
+                <el-input v-model="nickname" placeholder=nickname></el-input>
+                <div style="height: 30px;"></div>
+                <span>签名：</span>
+                <el-input v-model="sign" placeholder=user[sign]></el-input>
+                <div style="height: 30px;"></div>
+                <span>地区：</span>
+                <el-input v-model="region" placeholder=user.region></el-input>
+                <div style="height: 50px;"></div>
+                <el-button type="success" icon="el-icon-check" @click="changeInformation" circle></el-button>
             </div>
         </div>
     </div>
@@ -254,6 +244,8 @@ export default {
         myHead:'',
         nickname:'',
         newNick:'',
+        sign:'',
+        region:'',
         // 搜索相关
         userList:[],
         linkmanList:[],
@@ -309,10 +301,22 @@ export default {
         }
     },
     created:function(){
-        this.userName = window.sessionStorage.user;   // 从session中获取userName
-        console.log('欢迎, ' + this.userName);
+        
     },
     mounted: function(){
+        const params = this.$route.params;
+        if(params.userName){
+            this.userName = params.userName;
+            console.log('欢迎, ' + this.userName);
+        }
+        else{
+            this.goBack();
+        }
+        // 历史返回重新登陆
+        if (window.history && window.history.pushState) {
+            history.pushState(null, null, document.URL)
+            window.addEventListener('popstate', this.goBack, false)
+        }
         var self = this;
         //表情启动
         this.obj=new Face({
@@ -321,6 +325,25 @@ export default {
                 self.send_text+="〖"+face.title+"〗";
                 document.querySelector('.face-warp').style.display='none';
             }
+        });
+        // 获取用户信息
+        axios.post(
+            'https://afwt8c.toutiao15.com/get_user',
+            {
+                userName: this.userName
+            }
+        ).then((res)=>{
+            // 处理正常结果
+            const data = res.data;
+            self.nickname = data.result.nickname;
+            self.sign = data.result.sign;
+            self.region = data.result.region;
+        }).catch(function(error) {
+            // 处理异常结果
+            console.log(JSON.stringify(error));
+            console.log(error.result);
+        }).finally(function() {
+            console.log('请求用户信息成功');
         });
         // 获取用户头像
         axios.post(
@@ -373,6 +396,7 @@ export default {
             //console.log(data.result);
             //console.log(data.result.length);
             self.messageList = data.result;
+            // console.log(moment(data.result[0].createdAt).utcOffset(480).format('YYYY-MM-DD HH:mm:ss'));
             //提取消息列表好友头像
             for(var i=0; i<self.messageList.length; i++){
                 self.messageList[i].message = self.obj.replaceFace(self.messageList[i].message);
@@ -550,7 +574,7 @@ export default {
                     console.log(JSON.stringify(error));
                     console.log(error.result);
                 }).finally(function() {
-                console.log('请求最近消息列表成功');
+                    console.log('请求最近消息列表成功');
                 });
             }
             else if(index==1)
@@ -924,43 +948,64 @@ export default {
             this.alterbox_show=0;
             this.setbox_show=0;
         },
-        //接受好友请求
-        accept_request(){
-            let button = $("#accept_button");
-            button.attr("disabled", true);
-        },
         // 上传图片
-        updataImg(){
-            var self = this
-            var file = document.querySelector('input[type=file]').files[0];
-            console.log("base64",file)
-            var reader = new FileReader();
-            reader.onload = function () {
-                $("#base64Img").attr("src",reader.result);
-                self.imageUrl = reader.result;
-                // console.log(self.imageUrl);
-                //刷新头像
+        updataImg(){
+            var self = this;
+            var file = document.querySelector('input[type=file]').files[0];
+            console.log("base64",file);
+            var reader = new FileReader();
+            reader.onload = function () {
+                $("#base64Img").attr("src",reader.result);
+                self.imageUrl = reader.result;
+                // console.log(self.imageUrl);
+                //刷新头像
                 self.myHead = reader.result;
-                //上传到数据库
-                axios.post(
-                    'https://afwt8c.toutiao15.com/set_headImg',
-                    {
-                        userName: this.userName,
-                        headImg: reader.result
-                    }
-                ).then((res)=>{
-                    const data = res.data;
-                }).catch(function(error){
-                    console.log(JSON.stringify(error));
-                    console.log(error.result);
-                }).finally(function() {
-                    console.log('修改头像成功');
-                });
-            }
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        },
+                //上传到数据库
+                axios.post(
+                    'https://afwt8c.toutiao15.com/set_headImg',
+                    {
+                        userName: this.userName,
+                        headImg: reader.result
+                    }
+                ).then((res)=>{
+                    const data = res.data;
+                }).catch(function(error){
+                    console.log(JSON.stringify(error));
+                    console.log(error.result);
+                }).finally(function(){
+                    console.log('修改头像成功');
+                });
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        },
+        goBack () {
+            let href = window.location.href
+            window.location.href = href.split('#')[0]
+        },
+        // 修改用户信息
+        changeInformation(){
+            axios.post(
+          'https://afwt8c.toutiao15.com/set_user',
+          { 
+            userName: this.userName,  
+            nickname: this.nickname,
+            sign: this.sign,
+            region: this.region
+          }
+      ).then((res)=> {
+          // 处理正常结果
+          const data = res.data;
+          console.log("data:", data);
+      }).catch(function(error) {
+          // 处理异常结果
+          console.log(JSON.stringify(error));
+          console.log(error.result);
+      }).finally(function() {
+          console.log('修改完成！');
+      });
+        }
     }
 }
 </script>
@@ -1031,27 +1076,16 @@ export default {
         margin: 20px auto 21px;
         cursor: pointer;
     }
+
     .left_bar .alter_box {
-        width: 250px;
+        width: 300px;
 		height: 230px;
-		background: #323232;
+		background: white;
 		position: absolute;
 		z-index: 1000;
-		left: 59px;
-		top: 14px;
+		left: 45px;
+		top: 40px;
     }
-    .left_bar .alter_box>div {
-		width: 100%;
-		color: #8c8c8c;
-		font-size: 14px;
-		line-height: 46px;
-		padding-left: 12px;
-		box-sizing: border-box;
-        cursor:default;
-	}
-    .left_bar .alter_box>div:hover {
-		background: #3c3c3c;
-	}
     .choose_head {
         width: 100%;
 		height: 120px;
@@ -1408,31 +1442,6 @@ export default {
     }
     .panel_right .msg_box .my_msg .the_head {
         float: right;
-    }
-    .panel_right .newfriend_titile{
-        text-align: left;
-        font-size: 20px;
-        font-weight: 500;
-        margin-left: 8%;
-        margin-top: 22px;
-        color: black;
-    }
-    .panel_right .newfriend_info{
-        float: left;
-        margin-top: 0px;
-        margin-left: 10%;
-    }
-    .panel_right .newfriend_head{
-        float: left;
-        width: 60px;
-        height: 60px;
-        margin-left: 10%;
-        background-color: brown;
-    }
-    .panel_right .newfriend_button{
-        float: right;
-        margin-right: 20%;
-        margin-top: 10px;
     }
     .panel_right .friendBox{
         text-align: left;

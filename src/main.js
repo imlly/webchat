@@ -12,7 +12,7 @@ Vue.use(VueWechatTitle)             // 引入该插件用于修改网页标题
 Vue.config.productionTip = false
 
 // 设置路由跳转限制
-router.beforeEach((to, from, next)=>{
+/*router.beforeEach((to, from, next)=>{
   
   // 跳转到需要登录的页面
   if(to.meta.needLogin){              
@@ -43,7 +43,7 @@ router.beforeEach((to, from, next)=>{
   else{
     next();
   }
-})
+})*/
 
 /* eslint-disable no-new */
 new Vue({
