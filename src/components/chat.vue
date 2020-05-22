@@ -213,10 +213,8 @@
                 <p style="margin-left:4%;">设置
                     <span @click="configbox_show=0" style="margin-left:80%; font-size:30px;">×</span>
                 </p>
-                <img id="base64Img" style="width:100px;" src="'../../static/img/'+'addImg.png'"/>
-                <div class="fileInput">
-                    <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image"/>
-                </div>
+                <img id="base64Img" style="width:100px;" src="'../../static/img/'+'addImg.png'"/>
+                <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image"/>
             </div>
         </div>
     </div>
@@ -916,8 +914,9 @@ export default {
             reader.onload = function () {
                 $("#base64Img").attr("src",reader.result);
                 self.imageUrl = reader.result;
-                console.log(self.imageUrl);
-                // that.updataImg()
+                // console.log(self.imageUrl);
+                //刷新头像
+                self.myHead = reader.result;
                 //上传到数据库
                 axios.post(
                     'https://afwt8c.toutiao15.com/set_headImg',
