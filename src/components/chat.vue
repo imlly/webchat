@@ -215,7 +215,14 @@
                 <p style="margin-left:4%;">设置
                     <span @click="configbox_show=0" style="margin-left:80%; font-size:30px;">×</span>
                 </p>
+                
+                <img id="base64Img" style="width:100px;"/>
+                <div class="fileInput">
+                    <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image/jpeg, image/png, image/jpg"/>
+                </div>
+                <!--<img :src=myHead style="width:80px"/>-->
             </div>
+
         </div>
     </div>
 </template>
@@ -897,6 +904,38 @@ export default {
             this.alterbox_show=0;
             this.setbox_show=0;
         },
+        // 上传图片
+        updataImg(){
+            var self = this
+            var file = document.querySelector('input[type=file]').files[0];
+            console.log("base64",file)
+            var reader = new FileReader();
+            reader.onload = function () {
+                $("#base64Img").attr("src",reader.result);
+                self.imageUrl = reader.result;
+                console.log(self.imageUrl);
+                // that.updataImg()
+                //上传到数据库
+                /*
+                axios.post(
+                    'https://afwt8c.toutiao15.com/set_headImg',
+                    {
+                        userName: this.userName,
+                        headImg: reader.result
+                    }
+                ).then((res)=>{
+                    const data = res.data;
+                }).catch(function(error){
+                    console.log(JSON.stringify(error));
+                    console.log(error.result);
+                }).finally(function() {
+                    console.log('修改头像成功');
+                });*/
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        },
     }
 }
 </script>
