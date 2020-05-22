@@ -215,12 +215,12 @@
                 <p style="margin-left:4%;">设置
                     <span @click="configbox_show=0" style="margin-left:80%; font-size:30px;">×</span>
                 </p>
-                
+                <!--
                 <img id="base64Img" style="width:100px;"/>
                 <div class="fileInput">
                     <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image/jpeg, image/png, image/jpg"/>
                 </div>
-                <!--<img :src=myHead style="width:80px"/>-->
+                <img :src=myHead style="width:80px"/>-->
             </div>
 
         </div>
