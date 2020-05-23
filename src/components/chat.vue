@@ -1043,9 +1043,6 @@ export default {
                 }
             }
         },
-        getId: function (index){
-            return "button" + index;
-        },
         //接受好友请求
         accept_request(index){
             var el = event.currentTarget;
