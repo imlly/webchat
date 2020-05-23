@@ -102,6 +102,9 @@
                     </ul>
 
                     <ul class="online_list" v-show="icon_show==3">
+                        <div class="noUser" v-show="userList.length == 0 && linkmanList.length == 0">
+                            <div>提示：没有匹配的结果</div>
+                        </div>
                         <div class="noUser" v-show="userList.length != 0">
                             <p>用户:</p>
                             <div v-show="userList.length == 0">提示：用户不存在</div>
@@ -185,8 +188,11 @@
                                 <p style="margin-top:5px">{{request.sender}}</p>
                                 <p style="margin-top:5px"></p>
                             </div>
-                            <div class="newfriend_button">
+                            <div class="newfriend_button" v-show="request['undo'] == true">
                                 <button @click="accept_request(index)">接受</button>
+                            </div>
+                            <div class="newfriend_button" v-show="request['undo'] == false">
+                                <p>已添加</p>
                             </div>
                         </div>
                         <hr style="width:80%">
@@ -628,7 +634,6 @@ export default {
                     //处理正常结果
                     const data = res.data;
                     this.request_list = data.result;
-                    console.log(this.request_list);
                 }).catch(function(error) {
                     // 处理异常结果
                     console.log(JSON.stringify(error));
@@ -1045,8 +1050,6 @@ export default {
         },
         //接受好友请求
         accept_request(index){
-            var el = event.currentTarget;
-            el.setAttribute("style", "display:none;");
             axios.post(
                 'https://afwt8c.toutiao15.com/add_friend',
                 {
@@ -1059,6 +1062,8 @@ export default {
                 console.log(data.result);
                 if(data.result == '添加好友成功！')
                 {
+                    const record = data.record;
+                    this.request_list[index].undo = record.undo;
                     var msg = {source:this.userName, des:this.request_list[index].sender, message : "你们已经是好友了，马上开始聊天吧"};
                     socket.emit('send message', msg);
                     axios.post(
@@ -1077,8 +1082,24 @@ export default {
                         console.log(error.result);
                     }).finally(()=>{
                         console.log('聊天记录已保存至数据库');
-                    })
-                    
+                    }) 
+                    // 重新请求好友列表
+                    axios.post(
+                        'https://afwt8c.toutiao15.com/get_friend_list',
+                        { 
+                            userName: this.userName
+                        }
+                    ).then((res)=>{
+                        // 处理正常结果
+                        const data = res.data;
+                        this.friendList = data.result;
+                    }).catch(function(error) {
+                        // 处理异常结果
+                        console.log(JSON.stringify(error));
+                        console.log(error.result);
+                    }).finally(function() {
+                    console.log('请求好友列表成功');
+                    });
                 }
             }).catch(function(error) {
                 //处理异常结果
