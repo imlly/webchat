@@ -152,15 +152,26 @@
                     <div>
                         <div class="msg_body">
                             <ul id="message" style="padding-left: 0px;">
-                                <li v-for="(chat_content,index) in chat_list" v-bind:key="index">
-                                    <div style="width:100%;height:40px">
+                                <div v-for="(chat_content,index) in chat_list" v-bind:key="index">
+                                    <li style="height:50px; width:100%;">
                                         <div v-bind:class="userName===chat_content.source?'send':'receive'">
-                                            
-                                            <div class="text" v-html="chat_content.message" style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:5px;"></div>
+                                            <div class="the_head" v-show="chat_content.source===userName">
+                                                <img :src=myHead style="width:36px; height:36px;"/>
+                                            </div>
+                                            <div class="the_head" v-show="chat_content.source===chat_title">
+                                                <div v-for="(friend,index) in friendList" v-bind:key="index">
+                                                    <li v-if="friend.friendName==chat_title">
+                                                        <img :src=friend.friendHead style="width:36px; height:36px;"/>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                            <div class="msg">
+                                                <div class="text" v-html="chat_content.message"></div>
+                                            </div>
                                         </div>
                                         <br>
-                                    </div>
-                                </li>
+                                    </li>
+                                </div>
                             </ul>
                         </div>
                     </div>
@@ -1583,46 +1594,8 @@ export default {
         box-sizing: border-box;
         overflow: auto;
     }
-    .panel_right .msg_box .other_msg {
-        float: left;
-        width: 350px;
-        margin-top: 12px;
-    }
-    .panel_right .msg_box .other_msg .the_head {
-        width: 36px;
-        height: 36px;
-        margin-top: 4px;
-        float: left;
-    }
     .msg_box>div:last-child {
         margin-bottom: 12px;
-    }
-    .msg_box .other_msg .msg_body {
-        float: left;
-        max-width: 304px;
-        margin-left: 10px;
-    }
-    .msg_box .other_msg .msg_body .name {
-        font-size: 12px;
-        color: #999;
-        width: 20px;
-    white-space: nowrap;
-    }
-    .msg_box .other_msg .msg_body .text {
-        margin-top: 4px;
-        font-size: 14px;
-        color: #111;
-        background: #fff;
-        padding: 8px;
-        box-sizing: border-box;
-        border: 1px solid #e6e6e6;
-        border-radius: 2px;
-    }
-    .panel_right .msg_box .my_msg {
-        float: right;
-    }
-    .panel_right .msg_box .my_msg .the_head {
-        float: right;
     }
     .panel_right .newfriend_titile{
         text-align: left;
@@ -1671,19 +1644,44 @@ export default {
     .panel_right .friendInfo .hehe{
         margin-left: 20%;
     }
-    .msg_box .my_msg .msg_body {
+    .msg_box .msg_body .send{
+        width: 100%;
+        height: 40px;
+    }
+    .msg_box .msg_body .receive{
+        width: 100%;
+        height: 40px;
+    }
+    .msg_box .msg_body .send .the_head {
+		float: right;
+    }
+    .msg_box .msg_body .receive .the_head{
+        float: left;
+    }
+    .msg_box .msg_body .send .msg{
         float: right;
         margin-right: 10px;
-        margin-left: 0;
+		margin-left: 0;
     }
-    .msg_box .my_msg .msg_body .name {
-        width: 100%;
-        float: right;
-        text-align: right;
+    .msg_box .msg_body .receive .msg{
+        float: left;
+        margin-left: 10px;
     }
-    .msg_box .my_msg .msg_body .text {
-        float: right;
-        background: #9eea6a;
+    .msg_box .msg_body .send .text{
+        margin-top: 4px;
+		font-size: 14px;
+        padding: 8px;
+		box-sizing: border-box;
+        background-color: #9eea6a;
+        border-radius: 5px;
+    }
+    .msg_box .msg_body .receive .text{
+        margin-top: 4px;
+		font-size: 14px;
+        padding: 8px;
+		box-sizing: border-box;
+        background-color: rgba(214, 211, 211, 0.692);
+        border-radius: 5px;
     }
     .facebox {
         width: 400px;
@@ -1782,17 +1780,5 @@ export default {
         color: #fff;
         text-align: center;
         line-height: 20px;
-    }
-    .send {
-        width: auto;
-        float:right;
-        background-color: #9eea6a;
-        border-radius: 5px;
-    }
-    .receive {
-        width: auto;
-        float:left;
-        background-color: rgba(214, 211, 211, 0.692);
-        border-radius: 5px;
     }
 </style>
