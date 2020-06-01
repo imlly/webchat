@@ -112,7 +112,7 @@
                         <li style="margin-left: -40px;" @click="showUserInfo(index)" v-for="(user,index) in userList" v-bind:key="'user' + index">
                             <div class="info">
                                 <div class="user_head">
-                                    <img :src=user.headImg style="width:50px;margin-top:-5px;"/>
+                                    <img :src=user.headImg style="width:50px; height:50px; margin-top:-5px;"/>
                                 </div>
                                 <div class="user_info">
                                     <div class="user_name">{{user.nickname}}</div>
@@ -242,6 +242,9 @@
                 <div style="margin-top:200px;" v-show="not_add==1">
                     <p><span>昵称：</span>{{userInfo['nickname']}}</p>
                     <p><span>用户名：</span>{{userInfo['userName']}}</p>
+                    <p>备注：</p>
+                    <textarea></textarea>
+                    <br>
                     <el-button type="success" @click="addFriend()">添加好友</el-button>
                 </div>
             </div>
