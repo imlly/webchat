@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                             <div class="other">
-                                <div class="time">{{message.createdAt[11]+message.createdAt[12]+message.createdAt[13]+message.createdAt[14]+message.createdAt[15]}}</div>
+                                <div class="time">{{dateFormat(message.createdAt)}}</div>
                             </div>
                         </li>
                     </ul>
@@ -246,6 +246,7 @@
                 </div>
             </div>
 
+            <!--设置-->
             <div class="configbox" v-show="configbox_show" style="text-align:left; overflow:auto;">
                 <div style="float:left; margin-top:4%;"><span>设置</span></div>
                 <div style="margin-left:92%; margin-top:3%;">
@@ -253,7 +254,7 @@
                 </div>
                 <p></p>
                 <img id="base64Img" style="width:100px;" src="'../../static/img/'+'addImg.png'"/>
-                <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image"/>
+                <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image"/>
                 <div style="height: 30px;"></div>
                 <span>昵称：</span>
                 <el-input v-model="nickname" placeholder=nickname></el-input>
@@ -305,18 +306,6 @@ export default {
             'user_icon_.png',
             'box_icon_.png'
         ],
-        /*headimgArr:[
-      	'headimg01.jpg',
-      	'headimg02.jpg',
-      	'headimg03.jpg',
-      	'headimg04.jpg',
-      	'headimg05.jpg',
-      	'headimg06.jpg',
-      	'headimg07.jpg',
-      	'headimg08.jpg',
-      	'headimg09.jpg',
-      	'headimg10.jpg'
-        ],*/
         write_flag: 0,
         // 获取更多信息相关
         more_chat: 1,
@@ -575,26 +564,64 @@ export default {
     methods:{
         logout(){
             // 用户登出，清除session
-            window.sessionStorage.removeItem('user');
+            //window.sessionStorage.removeItem('user');
             console.log("用户登出！");
             alert("已登出！");
             
             // 返回登录页
             this.$router.push('/');         
         },
-        change_profile(lr){
-  		    if(lr==1){
-  			    this.head_index++;
-				    if(this.head_index>=this.headimgArr.length){
-					this.head_index=0;
-				    }
-  		    }else{
-  			    if(this.head_index<=0){
-					this.head_index=this.headimgArr.length;
-				}
-  			    this.head_index--;
-  		    }
-  	    },
+        // 格式化时间
+        dateFormat:function(time) {
+            var date=new Date(new Date(time).getTime());
+            var year=date.getFullYear();
+            var month= date.getMonth()+1<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
+            var day=date.getDate();
+            var hours=date.getHours()<10 ? "0"+date.getHours() : date.getHours();
+            var minutes=date.getMinutes()<10 ? "0"+date.getMinutes() : date.getMinutes();
+            var seconds=date.getSeconds()<10 ? "0"+date.getSeconds() : date.getSeconds();
+            var currDate = new Date();
+            var currMonth = currDate.getMonth()+1<10 ? "0"+(currDate.getMonth()+1) : currDate.getMonth()+1;
+            var currDay = currDate.getDate();
+            if(currDate.getFullYear()!=year || currMonth!=month){
+                var day1 = day<10? "0"+day : day;
+                return year+"/"+month+"/"+day1;
+            }
+            if(currDay!=day){
+                if((currDay-day) < 7){
+                    var weekDay = "";
+                    switch(data.getDay()){
+                        case 0:
+                            weekDay = "星期天";
+                            break;
+                        case 1:
+                            weekDay = "星期一";
+                            break;
+                        case 2:
+                            weekDay = "星期二";
+                            break;
+                        case 3:
+                            weekDay = "星期三";
+                            break;
+                        case 4:
+                            weekDay = "星期四";
+                            break;
+                        case 5:
+                            weekDay = "星期五";
+                            break;
+                        case 6:
+                            weekDay = "星期六";
+                    }
+                    return weekDay;
+                }
+                else{
+                    return year+"/"+month+"/"+day;
+                }
+            }
+            if(currDay==day){
+                return hours+":"+minutes+":"+seconds;
+            }
+        },
         changeIcon(index){
             this.icon_show=index;
             this.more_chat = 1;
@@ -1543,7 +1570,7 @@ export default {
     }
     .online_list li .time {
         width: 100%;
-        font-size: 12px;
+        font-size: 10px;
         color: #aaa;
         text-align: right;
     }
