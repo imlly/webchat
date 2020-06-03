@@ -619,7 +619,7 @@ export default {
             if(currDay!=day){
                 if((currDay-day) < 7){
                     var weekDay = "";
-                    switch(data.getDay()){
+                    switch(date.getDay()){
                         case 0:
                             weekDay = "星期天";
                             break;
