@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="chat">
         <div class="chat_box">
             <div class="panel_left">
                 <div class="left_bar">
@@ -9,21 +9,22 @@
                         <img :src=myHead style="width:35px; height:35px;"/>
                     </div>
 
-                    <!--设置用户头像和昵称-->
+                    <!--名片-->
                     <div class="alter_box" v-show="alterbox_show">
-                        
-                        <div style="float:left;">
-                            <p>{{nickname}}</p>
-                            <p><span>用户名:</span>{{userName}}</p>
+                        <div style="margin-left:7%; margin-top:7%; width: 86%; height:43%;">
+                            <div style="float:left; margin-top:-5%;">
+                                <p style="font-weight:bold; font-size:20px;">{{nickname}}</p>
+                                <p style="color:#888888"><span>用户名: </span>{{userName}}</p>
+                            </div>
+                            <div style="float:right;">
+                                <img :src=myHead style="width:80px; height: 80px;"/>
+                            </div>
                         </div>
-                        <div>
-                            <img :src=myHead style="width:80px"/>
+                        <hr style="width:85%; border:0; background-color:#DDDDDD; height:1px;"/>
+                        <div style="margin-left:7%; margin-bottom:7%; width: 86%; height:40%; text-align:left;">
+                            <p class="hehe"><span style="color:#888888">地区： </span><span style="font-weight:bold;">{{region}}</span></p>
+                            <p class="hehe"><span style="color:#888888">签名： </span><span style="font-weight:bold;">{{sign}}</span></p>
                         </div>
-                        <div>
-                            <p class="hehe"><span>地区：</span>{{region}}</p>
-                            <p class="hehe"><span>签名：</span>{{sign}}</p>
-                        </div>
-                        
                     </div>
 
                     <!--菜单栏-->
@@ -238,6 +239,15 @@
                 <el-button type="success" @click="jumpMessage()">发消息</el-button>
             </div>
 
+
+            <!--词云
+            <div class="panel_right" v-show="icon_show==2">
+                <h1 class="newfriend_titile">新的朋友</h1>
+                <hr/>
+                <img id="wordcloudtest" style="width:100%; height:100%;" src="../../static/img/headimg01.jpg">
+            </div>-->
+
+
             <div class="panel_right" v-show="icon_show==3">
                 <div style="margin-top:200px;" v-show="not_add==1">
                     <p><span>昵称：</span>{{userInfo['nickname']}}</p>
@@ -251,25 +261,30 @@
 
             <!--设置-->
             <div class="configbox" v-show="configbox_show" style="text-align:left; overflow:auto;">
-                <div style="float:left; margin-top:4%;"><span>设置</span></div>
+                <div style="float:left; margin-left:5%; margin-top:4%; font-weight:bold; color:#888888;"><span>设置</span></div>
                 <div style="margin-left:92%; margin-top:3%;">
-                    <span @click="configbox_show=0" style="font-size:30px; cursor:pointer;">×</span>
+                    <span @click="configbox_show=0" style="font-size:30px; cursor:pointer; color:red;">×</span>
                 </div>
                 <p></p>
-                <img id="base64Img" style="width:100px;" src="'../../static/img/'+'addImg.png'"/>
-                <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image"/>
-                <div style="height: 30px;"></div>
-                <span>昵称：</span>
-                <el-input v-model="nickname" placeholder=nickname></el-input>
-                <div style="height: 30px;"></div>
-                <span>签名：</span>
-                <el-input v-model="sign" placeholder=user[sign]></el-input>
-                <div style="height: 30px;"></div>
-                <span>地区：</span>
-                <el-input v-model="region" placeholder=user.region></el-input>
-                <div style="height: 50px;"></div>
-                <div style="text-align: center;">
-                    <el-button type="success" icon="el-icon-check" @click="changeInformation" circle></el-button>
+                <div style="margin-left:25%; width: 50%;">
+                    <p style="font-weight:bold;">头像：</p>
+                    <img id="base64Img" style="width:100px;height:100px;" :src=myHead />
+                    <input type="file" id="Updateimage" lay-verify="required" @change="updataImg()" accept="image"/>
+                    <div style="height: 30px;"></div>
+                    <span style="font-weight:bold;">昵称：</span>
+                    <el-input v-model="nickname" placeholder=nickname></el-input>
+                    <div style="height: 30px;"></div>
+                    <span style="font-weight:bold;">签名：</span>
+                    <el-input v-model="sign" placeholder=user[sign]></el-input>
+                    <div style="height: 30px;"></div>
+                    <span style="font-weight:bold;">地区：</span>
+                    <el-input v-model="region" placeholder=user.region></el-input>
+                    <div style="height: 30px;"></div>
+                    <div style="text-align: center;">
+                        <el-button type="primary" @click="changeInformation">确认修改</el-button>
+                        <!--<el-button type="success" icon="el-icon-check" @click="changeInformation" circle></el-button>-->
+                    </div>
+                    <br/>
                 </div>
             </div>
         </div>
@@ -775,7 +790,21 @@ export default {
                     //console.log(self.friend_info);
                 });
                 */
-            }
+            }/*
+            else if(index==2){
+                this.renderCloud();
+                var wct = document.getElementById('wordcloudtest');
+                console.log(wct);
+                var wc = new Js2WordCloud(wct);
+                console.log(wc);
+                wc.setOption({
+                    tooltip: {
+                        show: true
+                    },
+                    list: [['谈笑风生', 80], ['谈笑风生', 80], ['谈笑风生', 70], ['谈笑风生', 70], ['谈笑风生', 60], ['谈笑风生', 60]],
+                    color: '#15a4fa'
+                })
+            }*/
         },
         changeMessage(index){
             //this.message_show=index;
@@ -1309,7 +1338,54 @@ export default {
             }).finally(function() {
                 console.log('修改完成！');
             });
-        }
+        },
+        // 词云
+        /*
+        renderCloud() {
+            var option = {
+                tooltip: {
+                    show: true,
+                    formatter: function(item) {
+                        return item[0] + ': 价值¥' + item[1] + '<br>' + '词云图'
+                    }
+                },
+                list: [['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1], ['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1], ['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1], ['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1], ['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1], ['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1], ['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1], ['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1], ['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1], ['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1], ['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1], ['谈笑风生', 500000], ['谈笑风生', 50], ['谈笑风生', 40], ['谈笑风生', 40], ['谈笑风生', 30], ['谈笑风生', 30], ['谈笑风生', 20], ['谈笑风生', 20], ['谈笑风生', 1], ['谈笑风生', 1]],
+                // list:[["玻璃瓶",941],["塑料瓶",15],["易拉罐",3]],
+                color: '#15a4fa',
+                shape: 'circle',
+                ellipticity: 1
+            }
+            var wc = new Js2WordCloud(document.getElementById('wordcloudtest'))
+            wc.showLoading({
+                backgroundColor: '#fff',
+                text: '看见了福建省的附件里是卡洛斯的家',
+                effect: 'spin'
+            })
+            setTimeout(function() {
+                wc.hideLoading()
+                wc.setOption(option)
+            }, 2000)
+
+            var wc = new Js2WordCloud(document.getElementById('wordcloudtest'));
+            //let list = words
+            let option = {
+                tooltip: {
+                    show: false,
+                    formatter: function (item) {
+                        console.log(item)
+                    }
+                },
+                list: [['谈笑风生', 80], ['谈笑风生', 80], ['谈笑风生', 70], ['谈笑风生', 70], ['谈笑风生', 60], ['谈笑风生', 60]],
+                shape: 'pentagon',
+                ellipticity: 1
+            }
+            console.log(wc);
+            wc.setOption(option);
+            window.onresize = function () {
+                wc.setOption(option)
+            }
+            console.log('finish');
+        }*/
     }
 }
 </script>
@@ -1389,6 +1465,9 @@ export default {
 		z-index: 1000;
 		left: 45px;
 		top: 40px;
+        border-radius: 25px;
+        border: 2px solid #888888;
+        padding: 20px;
     }
     .choose_head {
         width: 100%;
