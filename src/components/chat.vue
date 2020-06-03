@@ -505,7 +505,7 @@ export default {
                 if(msg.source == self.chat_title)
                     self.chat_list.push(msg);
                 let userExist = 0;
-                for(let i = 0;i < self.messageList.length;i++)
+                /*for(let i = 0;i < self.messageList.length;i++)
                 {
                     let tempName = (self.messageList[i].user1 == self.userName ? self.messageList[i].user2 : self.messageList[i].user1);
                     if(msg.source == tempName)
@@ -514,10 +514,10 @@ export default {
                         userExist = 1;
                         break;
                     }
-                }
+                }*/
                 if(userExist == 0)
                 {
-                    // 请求最近消息列表
+                    // 刷新最近消息列表
                     axios.post(
                         'https://afwt8c.toutiao15.com/get_message_list',
                         { 
