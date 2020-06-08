@@ -167,8 +167,8 @@
                                                 </div>
                                             </div>
                                             <div class="msg">
-                                                <div class="text" v-if="chat_content.message.length<100" v-html="chat_content.message"></div>
-                                                <img v-if="chat_content.message.length>100" style="width:100px;" :src="chat_content.message">
+                                                <div class="text" v-if="chat_content.message.indexOf('data:image/jpeg;base64,') == -1" v-html="chat_content.message"></div>
+                                                <img v-if="chat_content.message.indexOf('data:image/jpeg;base64,') != -1" style="width:100px;" :src="chat_content.message">
                                             </div>
                                         </div>
                                         <br>
@@ -1351,8 +1351,6 @@ export default {
                 $("#base64Img").attr("src",reader.result);
                 self.imageUrl = reader.result;
                 // console.log(self.imageUrl);
-                //刷新头像
-                self.myHead = reader.result;
                 //上传到数据库
                 self.send_text = reader.result;
                 console.log(reader.result);
