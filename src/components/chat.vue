@@ -167,7 +167,8 @@
                                                 </div>
                                             </div>
                                             <div class="msg">
-                                                <div class="text" v-html="chat_content.message"></div>
+                                                <div class="text" v-if="chat_content.message.length<100" v-html="chat_content.message"></div>
+                                                <img v-if="chat_content.message.length>100" style="width:100px;" :src="chat_content.message">
                                             </div>
                                         </div>
                                         <br>
@@ -180,6 +181,7 @@
                 <div :class="['send_box',{'focus':write_flag}]">
                     <div class="top_bar">
                         <div class="face_icon" title="表情"></div>
+                        <input type="file" id="sendImage" lay-verify="required" @change="sendImg()" accept="image"/>
                     </div>
                     <textarea class="text_box" v-model="send_text" @focus="write_flag=1" @focusout="write_flag=0"></textarea>
                     <div class="send_btn" @click="sendMessage()">发送</div>
@@ -1338,6 +1340,27 @@ export default {
             }).finally(function() {
                 console.log('修改完成！');
             });
+        },
+        // 发送图片
+        sendImg(){
+            var self = this;
+            var file = document.querySelector('#sendImage').files[0];
+            console.log("base64",file);
+            var reader = new FileReader();
+            reader.onload = function () {
+                $("#base64Img").attr("src",reader.result);
+                self.imageUrl = reader.result;
+                // console.log(self.imageUrl);
+                //刷新头像
+                self.myHead = reader.result;
+                //上传到数据库
+                self.send_text = reader.result;
+                console.log(reader.result);
+                self.sendMessage();
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
         },
         // 词云
         /*
