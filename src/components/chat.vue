@@ -201,7 +201,7 @@
                             </div>
                             <div class="newfriend_info">
                                 <p style="margin-top:5px">{{request.sender}}</p>
-                                <p style="margin-top:5px"></p>
+                                <p style="margin-top:5px;width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" :title=request.note>备注: {{request.note}}</p>
                             </div>
                             <div class="newfriend_button" v-show="request['undo'] == true">
                                 <button @click="accept_request(index)">接受</button>
@@ -249,13 +249,14 @@
                 <img id="wordcloudtest" style="width:100%; height:100%;" src="../../static/img/headimg01.jpg">
             </div>-->
 
-
+            <!--显示搜索到的用户的个人资料-->
             <div class="panel_right" v-show="icon_show==3">
                 <div style="margin-top:200px;" v-show="not_add==1">
+                    <img :src=userInfo.headImg style="width:60px;height:60px">
                     <p><span>昵称：</span>{{userInfo['nickname']}}</p>
                     <p><span>用户名：</span>{{userInfo['userName']}}</p>
                     <p>备注：</p>
-                    <textarea></textarea>
+                    <textarea v-model="default_note"></textarea>
                     <br>
                     <el-button type="success" @click="addFriend()">添加好友</el-button>
                 </div>
@@ -315,6 +316,7 @@ export default {
         searchName:'',
         not_add:0,
         userInfo:{},
+        default_note:'',
 
         icons:[
             'chat_icon.png',
@@ -1086,8 +1088,8 @@ export default {
         //查看用户个人资料
         showUserInfo(index){
             this.not_add=1;
-            console.log(index);
             this.userInfo=this.userList[index];
+            this.default_note="我是" + this.userInfo['nickname'];
         },
         //添加好友
         addFriend(){
