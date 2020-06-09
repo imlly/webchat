@@ -167,7 +167,8 @@
                                                 </div>
                                             </div>
                                             <div class="msg">
-                                                <div class="text" v-html="chat_content.message"></div>
+                                                <div class="text" v-if="chat_content.message.indexOf('data:image/jpeg;base64,') == -1" v-html="chat_content.message"></div>
+                                                <img v-if="chat_content.message.indexOf('data:image/jpeg;base64,') != -1" style="width:100px;" :src="chat_content.message">
                                             </div>
                                         </div>
                                         <br>
@@ -180,6 +181,7 @@
                 <div :class="['send_box',{'focus':write_flag}]">
                     <div class="top_bar">
                         <div class="face_icon" title="表情"></div>
+                        <input type="file" id="sendImage" lay-verify="required" @change="sendImg()" accept="image"/>
                     </div>
                     <textarea class="text_box" v-model="send_text" @focus="write_flag=1" @focusout="write_flag=0"></textarea>
                     <div class="send_btn" @click="sendMessage()">发送</div>
@@ -199,7 +201,7 @@
                             </div>
                             <div class="newfriend_info">
                                 <p style="margin-top:5px">{{request.sender}}</p>
-                                <p style="margin-top:5px"></p>
+                                <p style="margin-top:5px;width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" :title=request.note>备注: {{request.note}}</p>
                             </div>
                             <div class="newfriend_button" v-show="request['undo'] == true">
                                 <button @click="accept_request(index)">接受</button>
@@ -247,13 +249,14 @@
                 <div id="wordcloudtest" style="width:100%; height:100%;" />
             </div>
 
-
+            <!--显示搜索到的用户的个人资料-->
             <div class="panel_right" v-show="icon_show==3">
                 <div style="margin-top:200px;" v-show="not_add==1">
+                    <img :src=userInfo.headImg style="width:60px;height:60px">
                     <p><span>昵称：</span>{{userInfo['nickname']}}</p>
                     <p><span>用户名：</span>{{userInfo['userName']}}</p>
                     <p>备注：</p>
-                    <textarea></textarea>
+                    <textarea v-model="default_note"></textarea>
                     <br>
                     <el-button type="success" @click="addFriend()">添加好友</el-button>
                 </div>
@@ -310,6 +313,7 @@ export default {
         searchName:'',
         not_add:0,
         userInfo:{},
+        default_note:'',
 
         icons:[
             'chat_icon.png',
@@ -1082,8 +1086,8 @@ export default {
         //查看用户个人资料
         showUserInfo(index){
             this.not_add=1;
-            console.log(index);
             this.userInfo=this.userList[index];
+            this.default_note="我是" + this.userInfo['nickname'];
         },
         //添加好友
         addFriend(){
@@ -1336,6 +1340,25 @@ export default {
             }).finally(function() {
                 console.log('修改完成！');
             });
+        },
+        // 发送图片
+        sendImg(){
+            var self = this;
+            var file = document.querySelector('#sendImage').files[0];
+            console.log("base64",file);
+            var reader = new FileReader();
+            reader.onload = function () {
+                $("#base64Img").attr("src",reader.result);
+                self.imageUrl = reader.result;
+                // console.log(self.imageUrl);
+                //上传到数据库
+                self.send_text = reader.result;
+                console.log(reader.result);
+                self.sendMessage();
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
         },
         // 词云
         renderCloud() {
