@@ -43,7 +43,7 @@
   						<div class="logout" @click="logout();alterbox_show=0">退出登录</div>
                         <div class="setting" @click="configbox_show=1">设置</div>
   					</div>
-                    
+
                 </div>
 
                 <div class="online_box">
@@ -186,7 +186,7 @@
                     <div class="sendEmpty" v-show="sendEmptyFlag">不能发送空白信息</div>
                 </div>
             </div>
-            
+
             <!--显示好友信息-->
             <div class="panel_right" v-show="icon_show==1 && friend_show==-2">
                 <h1 class="newfriend_titile">新的朋友</h1>
@@ -240,12 +240,12 @@
             </div>
 
 
-            <!--词云
+            <!--词云-->
             <div class="panel_right" v-show="icon_show==2">
                 <h1 class="newfriend_titile">新的朋友</h1>
                 <hr/>
-                <img id="wordcloudtest" style="width:100%; height:100%;" src="../../static/img/headimg01.jpg">
-            </div>-->
+                <div id="wordcloudtest" style="width:100%; height:100%;" />
+            </div>
 
 
             <div class="panel_right" v-show="icon_show==3">
@@ -291,9 +291,6 @@
     </div>
 </template>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
 <script>
 export default {
     name: 'chat',
@@ -353,7 +350,7 @@ export default {
         }
     },
     created:function(){
-        
+
     },
     mounted: function(){
         const params = this.$route.params;
@@ -417,7 +414,7 @@ export default {
         // 请求最近消息列表
         axios.post(
             'https://afwt8c.toutiao15.com/get_message_list',
-            { 
+            {
                 userName: this.userName
             }
         ).then((res)=>{
@@ -467,7 +464,7 @@ export default {
                 });
             }
             //console.log(self.messageList[0].createdAt);
-            
+
             // for(var index = 0;index < self.messageList.length;index++){
             //     console.log(self.messageList[index]);
             // }
@@ -481,7 +478,7 @@ export default {
         // 请求好友列表
         axios.post(
             'https://afwt8c.toutiao15.com/get_friend_list',
-            { 
+            {
                 userName: this.userName
             }
         ).then((res)=>{
@@ -520,7 +517,7 @@ export default {
                     // 刷新最近消息列表
                     axios.post(
                         'https://afwt8c.toutiao15.com/get_message_list',
-                        { 
+                        {
                             userName: self.userName
                         }
                     ).then((res)=>{
@@ -602,7 +599,7 @@ export default {
                 console.log("信息类型不明确!");
             }
         });
-    },             
+    },
     beforeDestroy: function(){
     },
     methods:{
@@ -611,9 +608,9 @@ export default {
             //window.sessionStorage.removeItem('user');
             console.log("用户登出！");
             alert("已登出！");
-            
+
             // 返回登录页
-            this.$router.push('/');         
+            this.$router.push('/');
         },
         // 格式化时间
         dateFormat:function(time) {
@@ -676,7 +673,7 @@ export default {
                 // 请求最近消息列表
                 axios.post(
                     'https://afwt8c.toutiao15.com/get_message_list',
-                    { 
+                    {
                         userName: this.userName
                     }
                 ).then((res)=>{
@@ -737,7 +734,7 @@ export default {
                 // 请求好友列表
                 axios.post(
                     'https://afwt8c.toutiao15.com/get_friend_list',
-                    { 
+                    {
                         userName: this.userName
                     }
                 ).then((res)=>{
@@ -773,7 +770,7 @@ export default {
                 /*
                 axios.post(
                 'https://afwt8c.toutiao15.com/get_friend',
-                { 
+                {
                     userName: this.friendList[this.friend_show]['friendName']
                 }
                 ).then((res)=>{
@@ -790,21 +787,22 @@ export default {
                     //console.log(self.friend_info);
                 });
                 */
-            }/*
-            else if(index==2){
+            } else if(index==2){
+              this.$nextTick(() => {
                 this.renderCloud();
-                var wct = document.getElementById('wordcloudtest');
-                console.log(wct);
-                var wc = new Js2WordCloud(wct);
-                console.log(wc);
-                wc.setOption({
-                    tooltip: {
-                        show: true
-                    },
-                    list: [['谈笑风生', 80], ['谈笑风生', 80], ['谈笑风生', 70], ['谈笑风生', 70], ['谈笑风生', 60], ['谈笑风生', 60]],
-                    color: '#15a4fa'
-                })
-            }*/
+              });
+//                 var wct = document.getElementById('wordcloudtest');
+//                 console.log(wct);
+//                 var wc = new Js2WordCloud(wct);
+//                 console.log(wc);
+//                 wc.setOption({
+//                     tooltip: {
+//                         show: true
+//                     },
+//                     list: [['谈笑风生', 80], ['谈笑风生', 80], ['谈笑风生', 70], ['谈笑风生', 70], ['谈笑风生', 60], ['谈笑风生', 60]],
+//                     color: '#15a4fa'
+//                 })
+            }
         },
         changeMessage(index){
             //this.message_show=index;
@@ -845,7 +843,7 @@ export default {
                 }).finally(function() {
                     console.log("获取聊天记录成功！")
                 });
-            }  
+            }
         },
         // 获取更多信息
         getMoreChat(){
@@ -938,7 +936,7 @@ export default {
             if(index>-1){
                 axios.post(
                     'https://afwt8c.toutiao15.com/get_friend',
-                    { 
+                    {
                         userName: this.friendList[this.friend_show]['friendName']
                     }
                 ).then((res)=>{
@@ -989,7 +987,7 @@ export default {
                     }
                 ).then((res)=>{
                     //处理正常结果
-                
+
                 }).catch((error)=>{
                     // 处理异常结果
                     console.log(JSON.stringify(error));
@@ -1000,7 +998,7 @@ export default {
                 // 更新最近消息列表
                 axios.post(
                     'https://afwt8c.toutiao15.com/get_message_list',
-                    { 
+                    {
                         userName: this.userName
                     }
                 ).then((res)=>{
@@ -1113,7 +1111,7 @@ export default {
                         }
                     ).then((res)=>{
                         //处理正常结果
-                        
+
                     }).catch((error)=>{
                         // 处理异常结果
                         console.log(JSON.stringify(error));
@@ -1151,7 +1149,7 @@ export default {
                 console.log(JSON.stringify(error));
                 console.log(error.result);
             }).finally(function() {
-                
+
             })
         },
         // 点击发消息跳转页面
@@ -1231,18 +1229,18 @@ export default {
                         }
                     ).then((res)=>{
                         //处理正常结果
-                        
+
                     }).catch((error)=>{
                         // 处理异常结果
                         console.log(JSON.stringify(error));
                         console.log(error.result);
                     }).finally(()=>{
                         console.log('聊天记录已保存至数据库');
-                    }) 
+                    })
                     // 重新请求好友列表
                     axios.post(
                         'https://afwt8c.toutiao15.com/get_friend_list',
-                        { 
+                        {
                             userName: this.userName
                         }
                     ).then((res)=>{
@@ -1262,7 +1260,7 @@ export default {
                 console.log(JSON.stringify(error));
                 console.log(error.result);
             }).finally(function() {
-                
+
             })
         },
         // 显示设置框
@@ -1322,7 +1320,7 @@ export default {
             axios.post(
                'https://afwt8c.toutiao15.com/set_user',
                {
-                   userName: this.userName,  
+                   userName: this.userName,
                    nickname: this.nickname,
                    sign: this.sign,
                    region: this.region
@@ -1340,7 +1338,6 @@ export default {
             });
         },
         // 词云
-        /*
         renderCloud() {
             var option = {
                 tooltip: {
@@ -1368,24 +1365,24 @@ export default {
 
             var wc = new Js2WordCloud(document.getElementById('wordcloudtest'));
             //let list = words
-            let option = {
-                tooltip: {
-                    show: false,
-                    formatter: function (item) {
-                        console.log(item)
-                    }
-                },
-                list: [['谈笑风生', 80], ['谈笑风生', 80], ['谈笑风生', 70], ['谈笑风生', 70], ['谈笑风生', 60], ['谈笑风生', 60]],
-                shape: 'pentagon',
-                ellipticity: 1
-            }
+            // let option = {
+            //     tooltip: {
+            //         show: false,
+            //         formatter: function (item) {
+            //             console.log(item)
+            //         }
+            //     },
+            //     list: [['谈笑风生', 80], ['谈笑风生', 80], ['谈笑风生', 70], ['谈笑风生', 70], ['谈笑风生', 60], ['谈笑风生', 60]],
+            //     shape: 'pentagon',
+            //     ellipticity: 1
+            // }
             console.log(wc);
             wc.setOption(option);
             window.onresize = function () {
                 wc.setOption(option)
             }
             console.log('finish');
-        }*/
+        }
     }
 }
 </script>
@@ -1915,12 +1912,12 @@ export default {
         z-index: 1000;
         left: 59px;
         bottom: 14px;
-        
+
     }
     .left_bar .more_box>div {
         width: 100%;
         height: 46px;
-        
+
         font-size: 14px;
         line-height: 46px;
         padding-left: 12px;
